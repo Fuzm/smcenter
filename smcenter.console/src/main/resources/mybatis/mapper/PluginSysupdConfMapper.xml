@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginSysupdConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginSysupdConf" id="pluginSysupdConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="sysupdAction" column="sysupd_action"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,sysupd_action
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginSysupdConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginSysupdConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_sysupd_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginSysupdConf">
+  		update plugin_sysupd_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="sysupdAction!=null and sysupdAction!=''">sysupd_action=#{sysupdAction},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginSysupdConf">
+  	delete from plugin_sysupd_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginSysupdConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginSysupdConf">
+  		insert into plugin_sysupd_conf(
+				plugin_conf_id,
+							conf_sort,
+							sysupd_action
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{sysupdAction}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginSysupdConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginSysupdConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_sysupd_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="sysupdAction!=null and ''!=sysupdAction"> AND sysupd_action=#{sysupdAction}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginSysupdConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginSysupdConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_sysupd_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginSysupdConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginSysupdConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_sysupd_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

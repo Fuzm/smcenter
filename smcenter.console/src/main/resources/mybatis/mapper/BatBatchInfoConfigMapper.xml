@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatBatchInfoConfigDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatBatchInfoConfig" id="batBatchInfoConfigList">
+		<result property="batchId" column="batch_id"/>
+		<result property="batchName" column="batch_name"/>
+		<result property="subsCode" column="subs_code"/>
+		<result property="launchType" column="launch_type"/>
+		<result property="batchCronValue" column="batch_cron_value"/>
+		<result property="validDate" column="valid_date"/>
+		<result property="equallyTaskAmount" column="equally_task_amount"/>
+		<result property="isRunAgain" column="is_run_again"/>
+		<result property="agentId" column="agent_id"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	batch_id,batch_name,subs_code,launch_type,batch_cron_value,valid_date,equally_task_amount,is_run_again,agent_id,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="batBatchInfoConfigList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchInfoConfig">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_batch_info_config where 
+				batch_id = #{batchId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchInfoConfig">
+  		update bat_batch_info_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="batchName!=null and batchName!=''">batch_name=#{batchName},</if>
+			<if test="subsCode!=null and subsCode!=''">subs_code=#{subsCode},</if>
+			<if test="launchType!=null and launchType!=''">launch_type=#{launchType},</if>
+			<if test="equallyTaskAmount!=null and equallyTaskAmount!=''">equally_task_amount=#{equallyTaskAmount},</if>
+			<if test="isRunAgain!=null and isRunAgain!=''">is_run_again=#{isRunAgain},</if>
+			<if test="agentId!=null and agentId!=''">agent_id=#{agentId},</if>
+			batch_cron_value=#{batchCronValue}, 
+		 	valid_date=#{validDate},
+		    remark=#{remark}
+		</trim>
+  		 where 
+				batch_id = #{batchId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchInfoConfig">
+  	delete from bat_batch_info_config where 
+					batch_id = #{batchId}
+  </delete>
+  	
+  	<insert id="insertBatBatchInfoConfig" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchInfoConfig">
+  		insert into bat_batch_info_config(
+				batch_id,
+							batch_name,
+							subs_code,
+							launch_type,
+							batch_cron_value,
+							valid_date,
+							equally_task_amount,
+							is_run_again,
+							agent_id,
+							remark
+			)
+  			values(
+  		#{batchId},
+  		  		#{batchName},
+  		  		#{subsCode},
+  		  		#{launchType},
+  		  		#{batchCronValue},
+  		  		#{validDate},
+  		  		#{equallyTaskAmount},
+  		  		#{isRunAgain},
+  		  		#{agentId},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batBatchInfoConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchInfoConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_batch_info_config WHERE 1=1
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+			<if test="batchName!=null and ''!=batchName"> AND batch_name=#{batchName}</if>
+			<if test="subsCode!=null and ''!=subsCode"> AND subs_code=#{subsCode}</if>
+			<if test="launchType!=null and ''!=launchType"> AND launch_type=#{launchType}</if>
+			<if test="batchCronValue!=null and ''!=batchCronValue"> AND batch_cron_value=#{batchCronValue}</if>
+			<if test="validDate!=null and ''!=validDate"> AND valid_date=#{validDate}</if>
+			<if test="equallyTaskAmount!=null and ''!=equallyTaskAmount"> AND equally_task_amount=#{equallyTaskAmount}</if>
+			<if test="isRunAgain!=null and ''!=isRunAgain"> AND is_run_again=#{isRunAgain}</if>
+			<if test="agentId!=null and ''!=agentId"> AND agent_id=#{agentId}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+			order by batch_id
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batBatchInfoConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchInfoConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_batch_info_config WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batBatchInfoConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchInfoConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_batch_info_config O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

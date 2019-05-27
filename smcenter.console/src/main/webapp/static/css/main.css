@@ -1,0 +1,1113 @@
+#loginmain{
+    font-family: "微软雅黑";
+}
+#loginmain #login-module{
+    overflow:hidden;
+    margin-bottom: -15px;
+}
+
+#loginmain #login-module .lg-container {
+    position:absolute;
+    z-index:0;
+    background:#fafafa none repeat scroll 0% 0%;
+    height: 100%;
+    width:100%;
+}
+
+#loginmain #login-module fieldset {
+    border:none;
+    padding:15px 39px 0;
+}
+
+#loginmain #login-module .lg-ipt{
+    width:100%;
+    line-height:2em;
+    font-size:12px;
+    height:24px;
+    border:1px solid #CCC;
+    padding:3px 4px 3px 3em;
+    width:210px;
+}
+
+#loginmain #login-module .lg-split{
+    border-left: 1px solid #ccc;
+    height:30px;
+    position:absolute;
+    margin:1px 30px;
+    width:1px;
+}
+#loginmain #login-module .lg-ipt-div {
+    background: #fff;
+    margin:10px 10px 0;
+}
+#loginmain #login-module .yzm {
+    border:1px solid #CCC;
+    width:80px;
+    margin: 0px 10px;
+    padding: 5px;
+    float:left;
+    height: 20px;
+    background-color: #fff;
+}
+#loginmain #login-module fieldset input[type=checkbox],
+#loginmain #login-module fieldset input[type=radio],
+#loginmain #login-module fieldset button
+{
+    margin-left:10px;
+    vertical-align:middle;
+}
+#loginmain #login-module fieldset button{
+    width:252px;
+    margin-bottom: 15px;
+}
+#loginmain #login-module fieldset a{
+    cursor:pointer;
+    text-decoration:none;
+}
+#loginmain #login-module .lg-a-right{
+    color:#000;
+    font-size:14px;
+    float:right;
+    margin-right: 16px;
+}
+#loginmain #login-module fieldset span {
+    color:#000;
+    font-size:14px;
+    position: absolute;
+    margin: -1px 3px;
+}
+
+#loginmain #login-module .img{
+    margin: 3px 0px;
+}
+#loginmain #login-module .next{
+    margin: 14px 15px;
+    position: absolute;
+}
+
+#loginmain #login-module {
+    float: right;
+}
+#loginmain #login-module .tab{
+    width: 100%;
+    height: 100%;
+}
+#loginmain #login-module .tab .content{
+    float:left;
+    width: 500px;
+}
+
+#loginmain #login-module .tab ul{
+    list-style: none;
+    padding-left: 0;
+}
+#loginmain #login-module .tab ul li{
+    margin-top: 15px;
+}
+#loginmain #login-module .tab ul li h3{
+    font-weight: normal !important;
+    margin-top: 1px;
+    font-size: 14px !important;
+    
+}
+.current{
+    display: none;
+}
+#loginmain #login-module .tab ul li a{
+    font-size:18px;
+    color: #999;
+}
+#loginmain #login-module .tab ul li.active a{
+    color:#1FA4F1;
+}
+#loginmain #login-module .tab .hide{
+    display: none;
+}
+
+#loginmain #login-module .tab .i-frame{
+    width: 500px;
+    height: 500px;
+}
+
+#loginmain #login-module .main-door{
+    background-color:#f9f9f9;
+    width:100%;
+    height:auto;
+    overflow:hidden;
+}
+#loginmain #login-module .login-kuang1{
+    margin:0 auto;
+    width: 460px;
+    height: 380px;
+    border: 1px solid #ebe9e9;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    background-color:#FFF;
+    margin-top:40px;
+    z-index:10;
+}
+#loginmain #login-module .login-kuangtitle{
+    color:#666666;
+    font-size:16px;
+    padding-top:25px;
+    padding-left:20px;
+    padding-bottom:25px;
+    display: table;
+}
+#loginmain #login-module .login-kuangshurua{
+    width:380px;
+    height:40px;
+    border:1px solid #c9c9c9;
+    margin-left:40px;
+    margin-bottom:20px;
+}
+#loginmain #login-module .login-kuangshurua img{
+    padding-top:7px;
+    padding-bottom:7px;
+    padding-left:8px;
+    padding-right:8px;
+    border:0;
+    display:block;
+    float:left;
+}
+#loginmain #login-module .wenbeny{
+    width:320px;
+    height:30px;
+    margin-top:5px;
+    border-left:1px solid #e4e4e4;
+    border-top:0;
+    border-right:0;
+    border-bottom:0;
+    color:#999;
+    padding-left:10px;
+    line-height:30px\9;
+}
+#loginmain #login-module .wenbeny:hover{
+    color:#333;
+}
+#loginmain #login-module .login-kuangshurub{
+    width:190px;
+    height:40px;
+    border:1px solid #c9c9c9;
+    margin-left:40px;
+    margin-bottom:30px;
+    float:left;
+}
+#loginmain #login-module .login-kuangshurub img{
+    padding-top:7px;
+    padding-bottom:7px;
+    padding-left:8px;
+    padding-right:8px;
+    border:0;
+    display:block;
+    float:left;
+}
+#loginmain #login-module .yanzhengma{
+    width:120px;
+    height:30px;
+    margin-top:5px;
+    border-left:1px solid #e4e4e4;
+    border-top:0;
+    border-right:0;
+    border-bottom:0;
+    color:#999;
+    padding-left:10px;
+    line-height:30px\9;
+}
+#loginmain #login-module .yanzhengma:hover{
+    color:#333;
+}
+#loginmain #login-module .yanzhengmai img{
+    border:0;
+    float:left;
+    height:30px;
+}
+#loginmain #login-module .huanyizu{
+    float:left;
+    width:60px;
+    padding-left:10px;
+    padding-top:6px;
+}
+#loginmain #login-module .huanyizu a{
+    color:#a5a4a4;
+    text-decoration:none;
+}
+#loginmain #login-module .login-anniu{
+    width:400px;
+    height:46px;
+    margin-left:40px;
+    margin-bottom:20px;
+    display:inline;
+    float:left;
+}
+#loginmain #login-module .login-button{
+    width:180px;
+    height:46px;
+    border:0px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    background-color:#06b0fb;
+    font-size:18px;
+    font-family:"Microsoft YaHei" ;
+    color:#FFF;
+}
+#loginmain #login-module .login-button:hover{
+    width:180px;
+    height:46px;
+    border:0px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    background-color:#34c0fe;
+    font-size:18px;
+    font-family:"Microsoft YaHei" ;
+    cursor:pointer;
+    color:#FFF;
+}
+
+#loginmain .footer {
+    position:relative;
+    margin:20px auto 0;
+    padding:7px 0 9px;
+    border-top:1px solid #ddd;
+}
+#loginmain .footer .footer-bd p,
+.footer .footer-hd p {
+    padding-bottom:8px;
+    overflow:hidden;
+    *zoom:1;
+}
+#loginmain .footer .footer-bd a,
+.footer .footer-hd a {
+    display:inline;
+    float:left;
+    margin:0 4px;
+    white-space:nowrap;
+    color:#6c6c6c;
+}
+#loginmain .footer .footer-bd a:hover,
+.footer .footer-hd a:hover {
+    color:#f40;
+    text-decoration:none;
+}
+#loginmain .footer .footer-bd b,
+.footer .footer-hd b {
+    display:inline;
+    float:left;
+    margin:0 3px;
+    font-weight:400;
+    color:#ddd;
+}
+#loginmain .footer .footer-bd em,
+.footer .footer-bd span,
+.footer .footer-hd em,
+.footer .footer-hd span {
+    display:inline;
+    float:left;
+    white-space:nowrap;
+    color:#9c9c9c;
+}
+#loginmain .footer .footer-bd em,
+.footer .footer-hd em {
+    margin-left:30px;
+}
+#loginmain .footer .footer-bd span,
+.footer .footer-hd span {
+    margin:0 4px;
+}
+#loginmain .footer .footer-bd span a,
+.footer .footer-hd span a {
+    float:none;
+}
+#loginmain .footer .footer-hd p {
+    margin-bottom:8px;
+    line-height:27px;
+    border-bottom:1px solid #ddd;
+}
+#loginmain .footer .foot-ft {
+    display:none;
+}
+#loginmain #server-num {
+    color:#FFF;
+    font-size:11px;
+}
+#loginmain .login-box-warp {
+    border:2px solid #eee;
+    padding:40px 50px 10px;
+    width:385px;
+    float:right;
+    position: relative;
+    color:#999;
+}
+
+.login-box-warp .user-bar{
+    width:4px;
+    height:24px;
+    background-color:#61b5e9;
+    display: block;
+    position: absolute;
+    left:-2px;
+    top:46px;
+}
+.userLgion{
+    margin-bottom:30px;
+    font-size:24px;
+    color:#666;
+}
+.bd .margin-bom{
+    height: 50px !important;
+}
+
+.bd .password-login{
+    margin-bottom: 0 !important;
+}
+
+.verify-login .form-group input,
+.quick-form .form-group input{
+    height: 40px;
+    border:1px solid #ccc;
+    border-radius: 2px;
+}
+.form-control, .single-line{
+    color: #000000;
+    font-size: 16px;
+}
+
+/*更改input字体颜色*/
+.quick-form input:-moz-placeholder,
+.verify-login input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #d6d6d6;  
+}
+.quick-form input::-moz-placeholder,
+.verify-login input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #d6d6d6;
+}
+.quick-form input:-ms-input-placeholder,
+.verify-login input:-ms-input-placeholder{
+    color: #d6d6d6;
+    font-size: 16px;
+}
+.quick-form input::-webkit-input-placeholder,
+.verify-login input::-webkit-input-placeholder{
+    color: #d6d6d6;
+    font-size: 16px;
+}
+
+#username,
+#ldapusername{
+    background:url(../images/login/user-login/login-user.jpg) no-repeat;
+    padding-left: 48px;
+}
+#fake_pass,
+#fake_pass1,
+#password,
+#ldappassword{
+    background:url(../images/login/user-login/pass.jpg) no-repeat;
+    padding-left: 48px;
+}
+
+
+.remember-forget{
+    height:30px;
+}
+
+#remember-name{
+    vertical-align: middle;
+    margin-top: 9px;
+}
+#forgetS small,
+.remember-name{
+    color:#999;
+    font-size: 14px;
+    font-weight:normal;
+    line-height: 29px;
+    margin-left: 5px;
+}
+#forgetS:hover small{
+    color:#2cb9ff;
+}
+
+.login-btn{
+    width:280px;
+    height:40px;
+    background-color: #2cb9ff;
+    border-radius: 1px !important;
+    color:#ecf7ff !important;
+    font-size: 18px !important;
+    /*line-height: 40px;*/
+    margin-bottom: 30px !important;
+}
+
+#lg-btn span,
+#lg-btn1 span{
+    margin-left:34px;
+}
+
+#loginmain .login-bg {
+    position:absolute;
+    width:467px;
+    height:326px;
+    overflow:hidden;
+    left:64px;
+    margin-top: 25px;
+    z-index:0;
+}
+#loginmain #page {
+    width:1190px;
+    margin-left:auto;
+    margin-right:auto;
+}
+#loginmain #logo {
+    padding:30px 0 0;
+}
+#loginmain #page .body {
+    width:1160px;
+    margin:0 auto;
+    _height:490px;
+    position:relative;
+    padding: 5% 0 3%;
+}
+#loginmain @media screen and (max-width:1189px) {
+    #page {
+        width:990px;
+        margin:0 auto;
+    }
+    .login-box-warp {
+        margin-right:70px!important;
+    }
+}
+#loginmain .abc {
+     width:350px;
+     height:280px;
+     float:left;
+     display:inline;
+     margin-left:170px;
+ }
+#loginmain @media screen and (max-width:767px) {
+    #page {
+        width:auto;
+        margin:0 auto;
+    }
+    .header {
+        border-bottom:1px solid #DEDEDE;
+        text-align:center;
+        text-indent:-110px;
+    }
+    #logo {
+        height:35px;
+        padding:20px 10px;
+        overflow:hidden;
+    }
+    .abc,.footer,.login-bg,.login-extra {
+        display:none!important;
+    }
+    .login-box-warp {
+        margin:0 auto!important;
+        float:none;
+    }
+    #page .body {
+        margin-top:30px;
+    }
+}
+#loginmain .login_get_code {
+    display: block;
+    line-height: 28px;
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+    width: 70px;
+    height: 28px;
+    background-color: #fafafa;
+}
+#loginmain .steps {
+    position: relative;
+}
+#loginmain .steps ol li {
+    display: inline;
+    float: left;
+    font-size: 18px;
+    color: #b6b6b6;
+    font-family: "\5FAE\8F6F\96C5\9ED1","\534E\6587\7EC6\9ED1","\9ED1\4F53",arial;
+}
+
+#loginmain .page{
+    width: 1190px;
+    margin: 0 auto;
+}
+
+#loginmain .loginscreen.middle-box {
+    width: 400px;
+}
+#loginmain .m-t{
+    margin-top: -25px !important;
+}
+
+.login_way{
+    float: left;
+}
+#loginmain .login_way {
+    padding-bottom:5px;
+}
+#loginmain .login_way_tit,
+.login_form_tit {
+    
+    font-size:14px;
+    color:#b2b2b2;
+}
+#loginmain .login_type1 .mobile_form {
+    display:none;
+}
+#loginmain .login_type2 .ap_form {
+    display:none;
+}
+#loginmain .ap_form .login_form_tit,
+.mobile_form .login_form_tit {
+    margin-top:24px;
+}
+#loginmain .login_way_list {
+    overflow:hidden;
+    list-style: none;
+    padding-left: 0;
+    margin:10px 0 0 0;
+}
+
+.login_way_list li{
+    float: left;
+}
+.login_way_list li img{
+    vertical-align: middle;
+}
+.login_way_list li a{
+    color:#999;
+    font-size: 14px;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+.login_way_list li.QQlogin{
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #eee;
+}
+#loginmain .login_way_item {
+    float:left;
+    *width:60px;
+    margin-right:30px;
+    text-align:center;
+}
+#loginmain .login_way_item i {
+    display:block;
+    width:49px;
+    height:48px;
+    margin:0 auto;
+    background: url(../../images/login.png) no-repeat;
+    text-indent:-999em;
+    overflow:hidden;
+}
+#loginmain .login_way_item span {
+    display:block;
+    margin-top:8px;
+    color:#999;
+}
+#loginmain .login_way_qq i {
+    background-position:0 0;
+}
+#loginmain .login_way_wx i {
+    background-position:-57px 0;
+}
+#loginmain .login_way_msg i {
+    background-position:-114px 0;
+}
+#loginmain .login_way_qq a:hover i {
+    background-position:0 -58px;
+}
+#loginmain .login_way_wx a:hover i {
+    background-position:-57px -58px;
+}
+#loginmain .login_way_msg a:hover i {
+    background-position:-114px -58px;
+}
+.layui-layer-dialog{
+    width: 750px !important;
+}
+
+
+/*#loginmain #passStrength1{
+    border:1px solid #ccc;
+    height:6px;
+    width: 280px;
+    margin-left: 20px;
+}*/
+#loginmain .strengthLv1 {
+    background:red;
+    height:6px;
+    width:100px;
+}
+#loginmain .strengthLv2 {
+    background:orange;
+    height:6px;
+    width:200px;
+}
+#loginmain .strengthLv3 {
+    background:green;
+    height:6px;
+    width:298px;
+}
+
+.float-r{
+    float: right;
+}
+#loginzhuce{
+    color: #61b5e9;
+    display: block;
+    text-align: right;
+}
+#forget-1 {
+    padding-bottom: 20px;
+}
+/*register-1*/
+
+#register-1{
+    padding-bottom: 50px;
+}
+
+#register-1 .middle-box{
+    max-height: 600px;
+    width: 880px !important;
+    border:1px solid #EEE;
+    background-color: #fff;
+    max-width:1160px !important;
+    margin:2% auto 0;
+    padding: 3% 0 1%;
+    
+}
+.middle-box-in{
+    padding:0 208px;
+}
+#register-1 .middle-box-in table tr td:nth-of-type(1){
+    min-width: 70px;
+}
+
+#register-1 .login_get_code{
+    right: 4%;
+}
+
+#register-1 .middle-box-in table tr .form-group{
+    margin-bottom: 0 !important;
+    
+}
+
+#fstep-2 table tr:not(:nth-of-type(2)),
+#fstep-0 table tr:nth-of-type(2),
+#register-1 .middle-box-in table tr {
+    height:65px;
+    
+}
+#register-1 .middle-box-in table tr:nth-of-type(2) td:nth-of-type(1){
+    position: absolute;
+    top:120px;
+}
+#fstep-2 table tr:not(:nth-of-type(2)) td:nth-of-type(1),
+#fstep-0 table tr:nth-of-type(2) td:nth-of-type(1),
+#register-1 .middle-box-in table tr td:nth-of-type(1){
+    padding-bottom: 20px ;
+    text-align: right;
+    font-size: 14px;
+    color:#666;
+}
+#fstep-2 table tr:not(:nth-of-type(2)) td:nth-of-type(2),
+#fstep-0 table tr:nth-of-type(2) td:nth-of-type(2),
+#register-1 .middle-box-in table tr td:nth-of-type(2){
+    vertical-align:top;
+}
+.register-pass-wrap,
+.forget-pass-wrap{
+    width:280px;
+    padding: 4px 0;
+}
+.register-pass-wrap em,
+.forget-pass-wrap em{
+    float: left;
+    font-style: normal;
+    margin-left: 30px;
+    color:#999;
+    
+}
+.register-pass-wrap #passStrength,
+.forget-pass-wrap #passStrength1{
+    float: right;
+    margin:-2px 50% 0 0;
+}
+
+
+#register-1 .register-mobile{
+    background: url(../../images/login/forget/usr.jpg) no-repeat 96% center ;
+}
+#register-1 .register-ns1{
+    background: url(../../images/login/forget/pass1.jpg) no-repeat 96% center ;
+}
+#register-1 .register-ns2{
+    background: url(../../images/login/forget/pass2.jpg) no-repeat 96% center ;
+}
+#register-1 .mobile-yzm{
+    background: url(../../images/login/forget/phone.jpg) no-repeat 96% center ;
+}
+.register-btn{
+    height: 40px;
+    width: 280px;
+    background-color: #2cb9ff !important;
+    font-size: 18px !important;
+    color:#fff !important;
+    opacity:1 !important;
+    margin-top: 2%;
+}
+
+
+/*forget-1*/
+
+#forget-1 .middle-box{
+    min-height: 400px;
+    width: 880px !important;
+    border:1px solid #EEE;
+    background-color: #fff;
+    max-width:1160px !important;
+    margin:5% auto 3%;
+}
+#loginmain .steps{
+    width: 530px;
+    margin: 0 auto;
+    text-align: left !important;
+}
+#loginmain .steps ol{
+    padding-left: 0;
+}
+#loginmain .steps ol li:nth-child(even){
+    margin: -5px 10px 0;
+    color:#e0e0e0;
+}
+
+#loginmain .steps ol li.active{
+    color:#666;
+}
+
+#loginmain .steps ol li:nth-of-type(5) i,
+#loginmain .steps ol li:nth-of-type(7) i{
+    margin-right: 5px;
+}
+#loginmain .steps ol li i{
+    width: 20px;
+    height: 20px;
+    color:#fff;
+    font-style: normal;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    background:url(../../images/login/forget/s11.jpg) no-repeat;
+}
+
+#loginmain .steps ol li:last-of-type i{
+    width: 20px;
+    height: 23px;
+    background:url(../../images/login/forget/s22.jpg) no-repeat;
+    vertical-align: middle;
+}
+#loginmain .steps ol li:last-of-type.active i{
+    background:url(../../images/login/forget/s2.jpg) no-repeat;
+}
+
+#loginmain .steps ol li.active i{
+    background:url(../../images/login/forget/s1.jpg) no-repeat;
+}
+
+
+#fstep-0{
+    padding:10% 236px 0;
+
+}
+#fstep-1{
+    padding:8% 180px 0;
+
+}
+#fstep-2{
+    padding:10% 209px 0;
+}
+#fstep-3{
+    padding:11% 298px 2%;
+}
+
+.float-l{
+    float: left;
+    color:#999;
+}
+
+.float-l:nth-of-type(2){
+    margin:0 10px 0 20px;
+}
+.float-l span{
+    color:#2cb9ff;
+    margin-left: -12px;
+    cursor: pointer;
+}
+#fstep-0 .float-l span{
+    margin-left: 0 !important;
+}
+#fstep-0 table tr:nth-of-type(1) .form-group,
+#fstep-1 table tr:not(:nth-of-type(3)) .form-group{
+    margin-bottom: 30px !important;
+}
+.pass-wrap{
+    margin-bottom: 30px;
+}
+#fstep-1 table tr:nth-of-type(3) .form-group,
+#fstep-2 table tr:not(:nth-of-type(2)) .form-group{
+    margin-bottom: 0 !important;
+}
+
+
+#fstep-0 table tr:nth-of-type(1) td:nth-of-type(1),
+#fstep-1 table tr td:nth-of-type(1),
+#fstep-2 table tr td:nth-of-type(1){
+    text-align: right;
+    font-size: 14px;
+    color:#666;
+    padding-bottom: 28px;
+}
+#forget-ns1-pass-wrap{
+    vertical-align: middle;
+}
+
+#fstep-1 table tr:nth-of-type(3) td:nth-of-type(1){
+    padding-bottom: 0;
+}
+#fstep-1 table tr td input{
+    background-color: #fafafa;
+}
+
+#register-1 .middle-box-in table tr td input,
+#fstep-0 table tr td input,
+#fstep-1 table tr td input,
+#fstep-2 table tr td input{
+    border: 1px solid #d7d7d7;
+    border-radius: 2px;
+    margin-left: 20px;
+    height:40px;
+    width: 280px;
+}
+
+.write-myzm{
+    width: 120px !important;
+}
+
+#fstep-0 .write-user{
+    background: url(../../img/login/forget/find.jpg) no-repeat 96% center ;
+}
+#fstep-1 .forget-user{
+    background:#fafafa url(../../img/login/forget/usr.png) no-repeat 96% center ;
+}
+#fstep-1 .forget-mobile{
+    background:#fafafa url(../../img/login/forget/phone.jpg) no-repeat 96% center;
+}
+
+#fstep-2 .forget-ns1{
+    background: url(../../img/login/forget/pass1.jpg) no-repeat 96% center ;
+}
+
+#fstep-2 .forget-ns2{
+    background: url(../../img/login/forget/pass2.jpg) no-repeat 96% center ;
+}
+#register-1 table tr td em,
+#fstep-0 table tr td span,
+#fstep-1 table tr td span,
+#fstep-2 table tr td span{
+    display: block;
+    margin-left: 20px;
+    text-align: left;
+    clear: both;
+    font-style: normal;
+}
+.forget-myzm{
+    background-color: #fff !important;
+}
+.getcode-input{
+    position: relative;
+}
+.login_get_code{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+}
+
+/*更改input字体颜色*/
+#fstep-0 table tr td input:-moz-placeholder,
+#fstep-1 table tr td input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #d2d2d2;  
+}
+#fstep-0 table tr td input::-moz-placeholder,
+#fstep-1 table tr td input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #d2d2d2;
+}
+#fstep-0 table tr td input:-ms-input-placeholder,
+#fstep-1 table tr td input:-ms-input-placeholder{
+    color: #d2d2d2;
+}
+#fstep-0 table tr td input::-webkit-input-placeholder,
+#fstep-1 table tr td input::-webkit-input-placeholder{
+    color: #d2d2d2;
+}
+#register-1 .middle-box-in table tr td input:-moz-placeholder,
+#fstep-2 table tr td input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #dedede;  
+}
+#register-1 .middle-box-in table tr td input::-moz-placeholder,
+#fstep-2 table tr td input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #dedede;
+}
+#register-1 .middle-box-in table tr td input:-ms-input-placeholder,
+#fstep-2 table tr td input:-ms-input-placeholder{
+    color: #dedede;
+}
+#register-1 .middle-box-in table tr td input::-webkit-input-placeholder,
+#fstep-2 table tr td input::-webkit-input-placeholder{
+    color: #dedede;
+}
+
+
+.next-step1{
+    width: 160px;
+    height: 40px;
+    background-color: #2cb9ff !important;
+    font-size: 18px !important;
+    margin-left: -28px;
+    opacity:1 !important;
+}
+
+
+#fstep-3 .reset-success{
+    color:#666;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px 0 50px;
+}
+#fstep-3 .back-success{
+    height: 40px;
+    width: 280px;
+    background-color: #36e0ba;
+    font-size: 18px;
+    color:#fff;
+}
+.next-step2{
+    width:282px;
+    height: 40px;
+    margin-top: 10%;
+    background-color: #2cb9ff !important;
+    font-size: 18px !important;
+    opacity:1 !important;
+}
+.back{
+    width: 110px;
+    height: 40px;
+    background-color: #eee;
+    color:#999;
+    font-size: 18px !important;
+    margin-left: 6px;
+}
+.back:hover{
+    color:#999 !important;
+}
+/*头和尾*/
+
+html, body{
+    padding: 0;
+    margin: 0;
+    height:100%;
+    background-color: #fafafa;
+}
+.g-body{
+    position: relative;
+    min-height: 100% !important;
+    _height:100%;
+    background-color:#fafafa !important;
+}
+#page,#loginmain .page{
+    width:100% !important;
+}
+
+.header{
+    height:70px;
+    background-color: #fff;
+
+}
+.logo-in{
+    width:1160px;
+    margin:0 auto;
+}
+#logo{
+    padding-top: 0 !important;
+}
+.gn-logo{
+    float: left;
+    margin-top: 17px;
+}
+.sub-logo{
+    float: right;
+    line-height: 70px;
+    color: #999;
+    font-size: 14px;
+}
+#register-1 .sub-logo,
+#forget-1 .sub-logo{
+    line-height: 110px;
+}
+.sub-logo-left{
+    float: left;
+    color: #999;
+    font-size: 18px;
+    margin-left: 10px;
+    border-left: 2px solid #eee;
+    margin-top: 26px;
+    padding:10px 0 0 10px;
+}
+.body {
+    padding-bottom: 70px !important;
+}
+#login-1 .sub-logo:hover{
+    color: #3399cc;
+}
+#loginmain .m-t{
+    line-height: 60px;
+    position: absolute;
+    bottom: 0px;
+    width:100%;
+}
+.footer-words{
+    text-align: center;
+    font-size: 14px;
+    color:#dcdcdc;
+}
+
+.login_form_cnt_extra {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    width: 80px;
+    height: 39px;
+    line-height: 39px;
+    padding: 0 10px;
+    border-left: 1px solid #c8c8c8;
+}
+
+.login_sms_get_code {
+    display: block;
+    height: 39px;
+    line-height: 40px;
+    text-align: center;
+    color: #3f3f3f;
+    white-space: nowrap;
+}
+
+.login_form_cnt {
+    position: relative;
+    z-index: 3;
+}
+

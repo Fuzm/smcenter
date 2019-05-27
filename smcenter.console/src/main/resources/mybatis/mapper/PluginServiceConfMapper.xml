@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginServiceConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginServiceConf" id="pluginServiceConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="serviceId" column="service_id"/>
+		<result property="serviceName" column="service_name"/>
+		<result property="serviceInterface" column="service_interface"/>
+		<result property="serviceMethod" column="service_method"/>
+		<result property="returnType" column="return_type"/>
+		<result property="paramGroupId" column="param_group_id"/>
+		<result property="version" column="version"/>
+		<result property="group" column="service_group"/>
+		<result property="timeout" column="timeout"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,service_id,service_name,service_interface,service_method,return_type,param_group_id,version,service_group,timeout
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginServiceConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginServiceConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_service_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginServiceConf">
+  		update plugin_service_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="serviceId!=null and serviceId!=''">service_id=#{serviceId},</if>
+	<if test="serviceName!=null and serviceName!=''">service_name=#{serviceName},</if>
+	<if test="serviceInterface!=null and serviceInterface!=''">service_interface=#{serviceInterface},</if>
+	<if test="serviceMethod!=null and serviceMethod!=''">service_method=#{serviceMethod},</if>
+	<if test="returnType!=null and returnType!=''">return_type=#{returnType},</if>
+	<if test="paramGroupId!=null and paramGroupId!=''">param_group_id=#{paramGroupId},</if>
+	<if test="version!=null and version!=''">version=#{version},</if>
+	<if test="group!=null and group!=''">service_group=#{group},</if>
+	<if test="timeout!=null and timeout!=''">timeout=#{timeout},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginServiceConf">
+  	delete from plugin_service_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginServiceConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginServiceConf">
+  		insert into plugin_service_conf(
+				plugin_conf_id,
+				conf_sort,
+				service_id,
+				service_name,
+				service_interface,
+				service_method,
+				return_type,
+				param_group_id,
+				version,
+				service_group,
+				timeout
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{serviceId},
+  		  		#{serviceName},
+  		  		#{serviceInterface},
+  		  		#{serviceMethod},
+  		  		#{returnType},
+  		  		#{paramGroupId},
+  		  		#{version},
+  		  		#{group},
+  		  		#{timeout}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginServiceConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginServiceConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_service_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="serviceId!=null and ''!=serviceId"> AND service_id=#{serviceId}</if>
+			<if test="serviceName!=null and ''!=serviceName"> AND service_name=#{serviceName}</if>
+			<if test="serviceInterface!=null and ''!=serviceInterface"> AND service_interface=#{serviceInterface}</if>
+			<if test="serviceMethod!=null and ''!=serviceMethod"> AND service_method=#{serviceMethod}</if>
+			<if test="returnType!=null and ''!=returnType"> AND return_type=#{returnType}</if>
+			<if test="paramGroupId!=null and ''!=paramGroupId"> AND param_group_id=#{paramGroupId}</if>
+			<if test="version!=null and ''!=version"> AND version=#{version}</if>
+			<if test="group!=null and ''!=group"> AND service_group=#{group}</if>
+			<if test="timeout!=null and ''!=timeout"> AND timeout=#{timeout}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginServiceConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginServiceConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_service_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginServiceConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginServiceConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_service_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

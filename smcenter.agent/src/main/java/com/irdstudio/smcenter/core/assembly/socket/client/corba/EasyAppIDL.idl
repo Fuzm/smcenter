@@ -1,0 +1,29 @@
+
+typedef sequence <octet> block_t;
+
+
+interface EasyAppIDL {
+	long openFile (
+		in string filename,
+		in long mode
+		);
+		
+	long readFile (
+		in long fd,
+		out block_t buf
+		);
+		
+	long writeFile (
+		in long fd,
+		in block_t buf
+		);
+		
+	long closeFile (
+		in long fd
+		);
+		
+	long commit (
+		in block_t InMsg,
+		out block_t OutMsg
+		);	
+};

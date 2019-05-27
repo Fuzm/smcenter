@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>应用插件执行日志修改</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/css/esaas-easyui-edit.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<body class="easyui-layout" scroll="no">
+	<form id="ff" method="post">
+		<div class="esaas-info-title">应用插件执行日志信息</div>
+		<table class="esaas-info-edit-table">
+			<tr>
+				<td width="15%" align="right">批次流水号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="batchSn" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">应用插件ID：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="pluginId" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">应用插件名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="pluginName" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">操作名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="actionName" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">操作结果：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="actionResult" name="actionResult"
+					style="width: 100%; height: 25px;" 
+					data-options="required:false,editable:false,valueField:'enname',textField:'cnname',data:EXEC_RESULT">
+				</select></td>
+				<td width="15%" align="right">操作详情：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="actionDetailInfo" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">任务编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="taskId" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="taskName" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">记录时间：</td>
+				<td width="35%"><input class="easyui-textbox" type="text" 
+					name="recordTime" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+		</table>
+	</form>
+	<div style="text-align: center; padding: 15px">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="submitForm()">&nbsp;保&nbsp;存&nbsp;</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="closeForm()">&nbsp;关&nbsp;闭&nbsp;</a>
+	</div>
+	<script>		
+		$(function() {
+			$.restfulGet('../../api/plugin/exec/log/',null,function(data){
+					$('#ff').form('load', {
+						batchSn : data.rows.batchSn,
+						pluginId : data.rows.pluginId,
+						pluginName : data.rows.pluginName,
+						actionName : data.rows.actionName,
+						actionResult : data.rows.actionResult,
+						actionDetailInfo : data.rows.actionDetailInfo,
+						taskId : data.rows.taskId,
+						taskName : data.rows.taskName,
+						recordTime : data.rows.recordTime
+					});					
+			});
+		});
+	
+		function submitForm() {
+			if (!$('#ff').form('validate'))
+				return;
+			var jsonData = $("#ff").serializeJson();
+			$.restfulPut('../../api/plugin/exec/log', jsonData, function(data) {
+				window.parent.reloadList();
+			});
+		};
+		
+		function closeForm(){
+			window.parent.JLEUtil.closewin();
+		}
+	</script>
+</body>
+</html>

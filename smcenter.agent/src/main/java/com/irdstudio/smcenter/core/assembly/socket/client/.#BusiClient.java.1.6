@@ -1,0 +1,194 @@
+package com.easycon.busi.client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import com.easycon.busi.element.UniKeyValueObject;
+import com.easycon.busi.util.PackUtil;
+/**
+ * 发送信贷交易的处理客户端程序
+ * @author 李广明
+ * @version 1.0
+ * @date 2008-05-15
+ *
+ */
+public class BusiClient {
+
+	private String ip = "";
+	private int port;
+	
+	public BusiClient(String ip,int port){
+		this.ip = ip;
+		this.port = port;
+	}
+	
+	public UniKeyValueObject doExecuteBusi(UniKeyValueObject inUvo)
+			throws Exception {
+		
+		//将UVO拆成字符串进行发送
+		String backMsg = null;
+		String msg = PackUtil.parsePack(inUvo);
+		
+		//连接服务端进行发送
+		Socket socket = null;
+		OutputStream socketOut = null;
+		PrintWriter pw = null;
+		InputStream socketIn = null;
+		BufferedReader br = null;
+		try {
+			socket = new Socket(ip, port);
+			socketOut = socket.getOutputStream();
+			pw = new PrintWriter(socketOut, true);
+			socketIn = socket.getInputStream();
+			br = new BufferedReader(new InputStreamReader(socketIn));
+			pw.println(msg);
+
+			//读取前4位数据,即数据包长度
+			char[] ch = new char[4];
+			int len = 0;
+			if ((len = br.read(ch, 0, 4)) < 0) {
+				throw new Exception("接收4位报文体长度数据时出错");
+			}
+			len=Integer.parseInt(String.valueOf(ch).trim());
+			
+			//接收指定长度的数据
+			char[] ch2=new char[len];
+			if(br.read(ch2, 0, len)<0){
+				throw new Exception("接收指定长度报文体数据时出错");
+			}			
+			backMsg = String.valueOf(ch2);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+				if (pw != null)
+					pw.close();
+				if (socketOut != null)
+					socketOut.close();
+				if (socketIn != null)
+					socketIn.close();
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//将返回信息组成UVO包返回给调用程序
+		UniKeyValueObject backUvo = PackUtil.getPack(backMsg);
+		return backUvo;
+	}
+	
+	/**
+	 * 客户端
+	 * @param args
+	 * @throws IOException 
+	 * @throws UnknownHostException 
+	 */
+	public static void main(String[] args) throws Exception {
+		test710007();
+		
+// for (int i = 0; i < 5; i++) {
+//			Socket socket = new Socket("localhost", 12007);
+//			OutputStream socketOut = socket.getOutputStream();
+//			PrintWriter pw = new PrintWriter(socketOut, true);
+//			InputStream socketIn = socket.getInputStream();
+//			BufferedReader br = new BufferedReader(new InputStreamReader(
+//					socketIn));
+//			String msg = null;
+//			pw.println("0049JYM 10010" + (char) 13
+//					+ "JJBH 0145797261130100938615" + (char) 13
+//					+ "DKJE 1000.08");
+//			while ((msg = br.readLine()) != null) {
+//				System.out.println(msg);
+//			}
+//			pw.println("0036JYM 20001" + (char) 13 + "JGM 014579741"
+//					+ (char) 13 + "DKJE 1000.08");
+//			while ((msg = br.readLine()) != null) {
+//				System.out.println(msg);
+//			}
+//			socket.close();
+//		}
+		
+//		UniKeyValueObject uvo = new UniKeyValueObject();
+//		uvo.addVariable("JYM", "10010");
+//		uvo.addVariable("JJBH", "0145797261130100938615");
+//		uvo.addVariable("DKJE", "1000.08");
+//		BusiClient client = new BusiClient("localhost",12007);
+//		UniKeyValueObject backUvo = client.doExecuteBusi(uvo);
+//		System.out.println(PackUtil.parsePack(backUvo));
+//		System.out.println(backUvo.getValue("jym"));
+
+//		UniKeyValueObject uvo = new UniKeyValueObject();
+//		uvo.addVariable("JYM", "70045");
+//		uvo.addVariable("JJBH", "0145797261130100938615");
+//		uvo.addVariable("HTBH", "HT7572108000127");
+//		uvo.addVariable("JGM", "014579704");
+//		BusiClient client = new BusiClient("localhost",12007);
+//		UniKeyValueObject backUvo = client.doExecuteBusi(uvo);
+//		System.out.println(PackUtil.parsePack(backUvo));
+//		System.out.println(backUvo.getValue("jym"));
+		
+		UniKeyValueObject uvo = new UniKeyValueObject();
+		uvo.addVariable("JYM", "710006");
+		uvo.addVariable("JJBH", "002780539");
+		uvo.addVariable("JYRQ", "2008-05-12");
+		uvo.addVariable("YPHM", "00000007");
+		uvo.addVariable("YPHB", "001");
+		uvo.addVariable("JGM", "9999990116");
+		BusiClient client = new BusiClient("168.168.241.150",12007);
+		UniKeyValueObject backUvo = client.doExecuteBusi(uvo);
+		System.out.println(PackUtil.parsePack(backUvo));
+		System.out.println(backUvo.getValue("jym"));	
+		
+//		UniKeyValueObject uvo = new UniKeyValueObject();
+//		uvo.addVariable("JYM", "92303");
+//		uvo.addVariable("HTBH", "HT7012108000039");
+//		uvo.addVariable("ZYWBH", "ZY08000795,ZY08000958");
+//		uvo.addVariable("DBHTBH", "DYHT70108000026");
+//		uvo.addVariable("DJBH", "DYBH7010827");
+//		uvo.addVariable("DJJG", "姚得成");
+//		uvo.addVariable("DYDJRQ", "2008-08-04");
+//		uvo.addVariable("DJZT", "1");
+//		uvo.addVariable("JYLX", "0");
+//		uvo.addVariable("JJBH", "HT7012108000039001");
+//		uvo.addVariable("HFJE", "850000");
+//		uvo.addVariable("JYRQ", "2008-01-01");
+		//uvo.addVariable("JYM", "93002");
+		//uvo.addVariable("SERNO", "SN7571208000045");
+//		BusiClient client = new BusiClient("localhost",12008);
+//		UniKeyValueObject backUvo = client.doExecuteBusi(uvo);
+//		System.out.println("outUVO====="+PackUtil.parsePack(backUvo));
+//		System.out.println("jym========"+backUvo.getValue("jym"));
+
+	}	
+	
+	/**银承出帐银票出票授权查询*/
+	private static void test710007(){
+		System.out.println("开始测试交易[710007]银承出帐银票出票授权查询");
+		UniKeyValueObject uvo = new UniKeyValueObject();
+		uvo.addVariable("JYM", "710007");
+		uvo.addVariable("jgm", "9999990116");
+		uvo.addVariable("jyrq", "2008-06-12");
+		uvo.addVariable("jjbh", "HT7583108000099002");
+		BusiClient client = new BusiClient("localhost",12008);
+		try {
+			UniKeyValueObject backUvo = client.doExecuteBusi(uvo);
+			if("00".equals(backUvo.getValue("ydm"))){
+				System.out.println("测试交易[710007]银承出帐银票出票授权查询通过!");
+			}else{
+				System.err.println("测试交易[710007]银承出帐银票出票授权查询不通过!");
+				System.err.println("outUVO====="+PackUtil.parsePack(backUvo));
+			}	
+		} catch (Exception e) {
+			System.err.println("测试交易[710007]银承出帐银票出票授权查询不通过!");
+			e.printStackTrace();
+		}
+	}
+}

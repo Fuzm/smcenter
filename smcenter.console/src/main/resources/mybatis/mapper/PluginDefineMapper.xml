@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginDefineDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginDefine" id="pluginDefineList">
+		<result property="pluginId" column="plugin_id"/>
+		<result property="pluginName" column="plugin_name"/>
+		<result property="pluginClass" column="plugin_class"/>
+		<result property="pluginDesc" column="plugin_desc"/>
+		<result property="needOtherDsVar" column="need_other_ds_var"/>
+		<result property="pluginConfigUrl" column="plugin_config_url"/>
+		<result property="pluginCatalog" column="plugin_catalog"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_id,plugin_name,plugin_class,plugin_desc,need_other_ds_var,plugin_config_url,plugin_catalog
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginDefineList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginDefine">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_define where 
+				plugin_id = #{pluginId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginDefine">
+  		update plugin_define 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="pluginName!=null and pluginName!=''">plugin_name=#{pluginName},</if>
+	<if test="pluginClass!=null and pluginClass!=''">plugin_class=#{pluginClass},</if>
+	<if test="pluginDesc!=null and pluginDesc!=''">plugin_desc=#{pluginDesc},</if>
+	<if test="needOtherDsVar!=null and needOtherDsVar!=''">need_other_ds_var=#{needOtherDsVar},</if>
+	<if test="pluginConfigUrl!=null and pluginConfigUrl!=''">plugin_config_url=#{pluginConfigUrl},</if>
+	<if test="pluginCatalog!=null and pluginCatalog!=''">plugin_catalog=#{pluginCatalog},</if>
+		</trim>
+  		 where 
+				plugin_id = #{pluginId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginDefine">
+  	delete from plugin_define where 
+					plugin_id = #{pluginId}
+  </delete>
+  	
+  	<insert id="insertPluginDefine" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginDefine">
+  		insert into plugin_define(
+				plugin_id,
+							plugin_name,
+							plugin_class,
+							plugin_desc,
+							need_other_ds_var,
+							plugin_config_url,
+							plugin_catalog
+			)
+  			values(
+  		#{pluginId},
+  		  		#{pluginName},
+  		  		#{pluginClass},
+  		  		#{pluginDesc},
+  		  		#{needOtherDsVar},
+  		  		#{pluginConfigUrl},
+  		  		#{pluginCatalog}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginDefineList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginDefineVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_define WHERE 1=1
+			<if test="pluginId!=null and ''!=pluginId"> AND plugin_id=#{pluginId}</if>
+			<if test="pluginName!=null and ''!=pluginName"> AND plugin_name=#{pluginName}</if>
+			<if test="pluginClass!=null and ''!=pluginClass"> AND plugin_class=#{pluginClass}</if>
+			<if test="pluginDesc!=null and ''!=pluginDesc"> AND plugin_desc=#{pluginDesc}</if>
+			<if test="needOtherDsVar!=null and ''!=needOtherDsVar"> AND need_other_ds_var=#{needOtherDsVar}</if>
+			<if test="pluginConfigUrl!=null and ''!=pluginConfigUrl"> AND plugin_config_url=#{pluginConfigUrl}</if>
+			<if test="pluginCatalog!=null and ''!=pluginCatalog"> AND plugin_catalog=#{pluginCatalog}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginDefineList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginDefineVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_define WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginDefineList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginDefineVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_define O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

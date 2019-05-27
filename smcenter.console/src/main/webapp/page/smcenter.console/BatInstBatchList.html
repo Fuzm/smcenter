@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>批次实例信息列表</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<script type="text/javascript">
+
+	function doAdd(){
+		JLEUtil.createModalWin('新增', 'BatInstBatchAdd.html');
+	}
+	
+	function doUpdate() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			JLEUtil.createModalWin('修改', 'BatInstBatchUpdate.html?' + 'batchId=' + row.batchId);
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+	
+	function doDelete(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			$.messager.confirm('删除提示', '你确定要删除这条记录?', function(r){
+				if (r){
+					var jsonData = JSON.parse('{'+'"batchId":"' + row.batchId + '"'+'}');
+					$.restfulDelete('../../api/bat/inst/batch', jsonData, function(data) {
+						$.messager.alert('提示','记录删除成功!','info');
+						$('#dg').datagrid('reload');
+					});
+				}
+			});
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+
+	function doView(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			JLEUtil.createModalWin('详情','BatInstBatchView.html?' + '&batchId=' + row.batchId);
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+	
+	function doMonitorBatch(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			JLUtil.linkNewPage('BatchMonitor.html?' + 'batchId=' + row.batchId);
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+
+	function reloadList(){
+		$('#dg').datagrid('reload');
+		JLEUtil.closewin();
+	};
+	
+	$(function() {
+		$('#updateBatBatchToStop').linkbutton('disable');
+		$('#updateBatBatchToContinue').linkbutton('disable');
+		$('#updateBatBatchToAgen').linkbutton('disable');
+		$('#batchToRun').linkbutton('disable');
+	});
+	
+	function buttonDisable(row){
+		//var row = $('#dg').datagrid('getSelected');
+		if (row.batchId != null) {
+			if (row.batchInterveneState == 0 && row.batchState != 9) {
+				$('#updateBatBatchToStop').linkbutton('enable');
+			} else {
+				$('#updateBatBatchToStop').linkbutton('disable');
+			}
+			
+			if (row.batchState != 9) {
+				$('#updateBatBatchToContinue').linkbutton('enable');
+			} else {
+				$('#updateBatBatchToContinue').linkbutton('disable');
+			}
+			
+			if (row.batchInterveneState == 1 || row.batchState == 9) {
+				$('#updateBatBatchToAgen').linkbutton('enable');
+				$('#batchToRun').linkbutton('enable');
+			} else {
+				$('#updateBatBatchToAgen').linkbutton('disable');
+				$('#batchToRun').linkbutton('disable');
+			}
+		} else {
+			$('#updateBatBatchToStop').linkbutton('disable');
+			$('#updateBatBatchToContinue').linkbutton('disable');
+			$('#updateBatBatchToAgen').linkbutton('disable');
+			$('#batchToRun').linkbutton('disable');
+		}
+	}
+	
+	//行选择事件
+	function doOnSelect(rowIndex, rowData) {
+		if (rowData.batchInterveneState == 0 && rowData.batchState != 9) {
+			$('#updateBatBatchToStop').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToStop').linkbutton('disable');
+		}
+		
+		if (rowData.batchState == 1) {
+			$('#updateBatBatchToContinue').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToContinue').linkbutton('disable');
+		}
+		
+		if (rowData.batchInterveneState == 1 || rowData.batchState == 9) {
+			$('#updateBatBatchToAgen').linkbutton('enable');
+			$('#batchToRun').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToAgen').linkbutton('disable');
+			$('#batchToRun').linkbutton('disable');
+		}
+	}
+
+	//批次调启
+	function doBatchToRun() {
+
+	}
+
+	//批次暂停
+	function doUpdateBatBatchToStop() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row && row.batchId != null) {
+			if (confirm("是否确认要暂停批次？")) {
+				var params = {
+					batchId : row.batchId,
+					batchAction : 'stop'
+				}
+				$.restfulGet('../../api/bat/batch/info/action/', params,
+					function(data) {
+						if (data.code == '0') {
+							$.messager.alert('提示', data.message,'success');
+							buttonDisable(row);
+						} else {
+							$.messager.alert('提示', data.message,'error');
+						}
+					});
+			}
+		} else {
+			alert('请在查询到的结果集中选择一条记录！');
+		}
+	}
+
+	//续跑
+	function doUpdateBatBatchToContinue() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row && row.batchId != null) {
+			if (confirm("是否确认要续跑批次？")) {
+				var params = {
+					batchId : row.batchId,
+					batchAction : 'continue'
+				}
+				$.restfulGet('../../api/bat/batch/info/action/', params,
+					function(data) {
+						if (data.code == '0') {
+							$.messager.alert('提示', data.message,'success');
+							buttonDisable(row);
+						} else {
+							$.messager.alert('提示', data.message,'error');
+						}
+					});
+			}
+		} else {
+			alert('请在查询到的结果集中选择一条记录！');
+		}
+	}
+	
+	//重跑
+	function doUpdateBatBatchToAgen(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row && row.batchId != null) {
+			if (confirm("是否确认要重跑批次？")) {
+				var params = {
+					batchId : row.batchId,
+					batchAction : 'rerun'
+				}
+				$.restfulGet('../../api/bat/batch/info/action/', params,
+					function(data) {
+						if (data.code == '0') {
+							$.messager.alert('提示', data.message,'success');
+							buttonDisable(row);
+						} else {
+							$.messager.alert('提示', data.message,'error');
+						}
+					});
+			}
+		} else {
+			alert('请在查询到的结果集中选择一条记录！');
+		}
+	}
+	
+	//中断
+	function doUpadteBatInstToEnd() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row && row.batchId != null) {
+			if (confirm("是否确认要中断批次？")) {
+				var params = {
+					batchId : row.batchId,
+					batchAction : 'continue'
+				}
+				$.restfulGet('../../api/bat/inst/end/' + row.batchId, null,
+					function(data) {
+						if (data.code == '0') {
+							$.messager.alert('提示', data.message,'success');
+							buttonDisable(row);
+						} else {
+							$.messager.alert('提示', data.message,'error');
+						}
+					});
+			}
+		} else {
+			alert('请在查询到的结果集中选择一条记录！');
+		}
+	}
+</script>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',title:''" style="height: 40px; background: #F4F4F4;">
+	<form id="searchForm">
+		<table>
+			<tr>
+				<td>&nbsp;批次标识：</td>
+				<td><input name="batchId" id="batchId"/></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.queryForm('searchForm','dg','../../api/bat/inst/batchs');">查找</a></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.clearForm('searchForm');">清空</a></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div data-options="region:'center',split:false">
+<table id="dg" class="easyui-datagrid" title="" style="width:100%;height:100%"
+			data-options="singleSelect:true,collapsible:true,url:'../../api/bat/inst/batchs',method:'post',onSelect: doOnSelect"
+			toolbar="#tb"
+		title="Load Data" 
+		rownumbers="true" pagination="true" pageSize="20">
+		<thead>
+			<tr>
+				<th data-options="field:'batchDate',resizable:true" >批次日期</th>
+				<th data-options="field:'batchId',resizable:true" >批次标识</th>
+				<th data-options="field:'batchName',resizable:true" >批次名称</th>
+				<th data-options="field:'subsCode',resizable:true" >所属系统</th>
+				<th data-options="field:'batchState',resizable:true" formatter="formatter_BAT_BATCH_STATE">批次状态</th>
+				<th data-options="field:'batchInterveneState',resizable:true" formatter="formatter_BAT_BATCH_INTERVENE_STATE">人工干预</th>
+				<th data-options="field:'stageName',resizable:true" >批次阶段</th>
+				<th data-options="field:'startTime',resizable:true" >启动时间</th>
+				<th data-options="field:'endTime',resizable:true" >结束时间</th>
+				<th data-options="field:'costTime',resizable:true" >运行时长（秒）</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+<div id="tb" style="padding:1px">
+	<div style="margin-bottom:2px">
+		<!-- <a href="javascript:doAdd()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:doUpdate()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+		<a href="javascript:doDelete()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a> -->
+		<a href="javascript:doUpdate()" class="easyui-linkbutton" iconCls="icon-ok" plain="true">查看</a>
+		
+		<a href="javascript:void(0)" onclick="doBatchToRun();" id="batchToRun" class="easyui-linkbutton" iconCls="icon-ok" plain="true" style="display:none;">调起</a>
+		<a href="javascript:void(0)" onclick="doUpdateBatBatchToStop();" id="updateBatBatchToStop" class="easyui-linkbutton" iconCls="icon-ok" plain="true" style="display:none;">暂停</a>
+		<a href="javascript:void(0)" onclick="doUpdateBatBatchToContinue();" id="updateBatBatchToContinue" class="easyui-linkbutton" iconCls="icon-ok" plain="true">续跑</a>
+		<a href="javascript:void(0)" onclick="doUpdateBatBatchToAgen();" id="updateBatBatchToAgen" class="easyui-linkbutton" iconCls="icon-ok" plain="true" style="display:none;">重跑</a>
+		<a href="javascript:void(0)" onclick="doUpadteBatInstToEnd();" class="easyui-linkbutton" iconCls="icon-ok" plain="true" style="display:none;">中断</a>
+		<a href="javascript:void(0)" onclick="doMonitorBatch();" class="easyui-linkbutton" iconCls="icon-ok" plain="true">批次监控</a>
+	</div>
+</div>
+</body>
+</html>

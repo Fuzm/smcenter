@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SParamInfoDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SParamInfo" id="sParamInfoList">
+		<result property="paramCode" column="param_code"/>
+		<result property="paramName" column="param_name"/>
+		<result property="paramValue" column="param_value"/>
+		<result property="paramScope" column="param_scope"/>
+		<result property="subsCode" column="subs_code"/>
+		<result property="pluginId" column="plugin_id"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	param_code,param_name,param_value,param_scope,subs_code,plugin_id,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="sParamInfoList" parameterType="com.irdstudio.smcenter.console.dao.domain.SParamInfo">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_param_info where 
+				param_code = #{paramCode}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SParamInfo">
+  		update s_param_info 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="paramName!=null and paramName!=''">param_name=#{paramName},</if>
+	<if test="paramValue!=null and paramValue!=''">param_value=#{paramValue},</if>
+	<if test="paramScope!=null and paramScope!=''">param_scope=#{paramScope},</if>
+	<if test="subsCode!=null and subsCode!=''">subs_code=#{subsCode},</if>
+	<if test="pluginId!=null and pluginId!=''">plugin_id=#{pluginId},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+		</trim>
+  		 where 
+				param_code = #{paramCode}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SParamInfo">
+  	delete from s_param_info where 
+					param_code = #{paramCode}
+  </delete>
+  	
+  	<insert id="insertSParamInfo" parameterType="com.irdstudio.smcenter.console.dao.domain.SParamInfo">
+  		insert into s_param_info(
+				param_code,
+							param_name,
+							param_value,
+							param_scope,
+							subs_code,
+							plugin_id,
+							remark
+			)
+  			values(
+  		#{paramCode},
+  		  		#{paramName},
+  		  		#{paramValue},
+  		  		#{paramScope},
+  		  		#{subsCode},
+  		  		#{pluginId},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sParamInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SParamInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_param_info WHERE 1=1
+			<if test="paramCode!=null and ''!=paramCode"> AND param_code=#{paramCode}</if>
+			<if test="paramName!=null and ''!=paramName"> AND param_name=#{paramName}</if>
+			<if test="paramValue!=null and ''!=paramValue"> AND param_value=#{paramValue}</if>
+			<if test="paramScope!=null and ''!=paramScope"> AND param_scope=#{paramScope}</if>
+			<if test="subsCode!=null and ''!=subsCode"> AND subs_code=#{subsCode}</if>
+			<if test="pluginId!=null and ''!=pluginId"> AND plugin_id=#{pluginId}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sParamInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SParamInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_param_info WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sParamInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SParamInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_param_info O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

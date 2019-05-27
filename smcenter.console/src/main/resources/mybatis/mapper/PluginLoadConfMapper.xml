@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginLoadConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginLoadConf" id="pluginLoadConfList">
+		<result property="tableName" column="table_name"/>
+		<result property="tableCnname" column="table_cnname"/>
+		<result property="tableType" column="table_type"/>
+		<result property="tableLoadMode" column="table_load_mode"/>
+		<result property="upSysname" column="up_sysname"/>
+		<result property="loadFromFile" column="load_from_file"/>
+		<result property="fileRowFlag" column="file_row_flag"/>
+		<result property="loadWarnFlag" column="load_warn_flag"/>
+		<result property="diffCompMethod" column="diff_comp_method"/>
+		<result property="limitPercent" column="limit_percent"/>
+		<result property="diffDealMethod" column="diff_deal_method"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="loadSeparator" column="load_separator"/>
+		<result property="beforeLoadSql" column="before_load_sql"/>
+		<result property="afterLoadSql" column="after_load_sql"/>
+		<result property="fileCharset" column="file_charset"/>
+		<result property="loadBufferSize" column="load_buffer_size"/>
+		<result property="loadFaildDeal" column="load_faild_deal"/>
+		<result property="loadFields" column="load_fields"/>
+		<result property="createTableDdl" column="create_table_ddl"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	table_name,table_cnname,table_type,table_load_mode,up_sysname,load_from_file,file_row_flag,load_warn_flag,diff_comp_method,limit_percent,diff_deal_method,last_modify_date,plugin_conf_id,conf_sort,load_separator,before_load_sql,after_load_sql,file_charset,load_buffer_size,load_faild_deal,load_fields,create_table_ddl
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginLoadConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_load_conf where 
+				table_name = #{tableName}
+				 and plugin_conf_id = #{pluginConfId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadConf">
+  		update plugin_load_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="tableCnname!=null and tableCnname!=''">table_cnname=#{tableCnname},</if>
+	<if test="tableType!=null and tableType!=''">table_type=#{tableType},</if>
+	<if test="tableLoadMode!=null and tableLoadMode!=''">table_load_mode=#{tableLoadMode},</if>
+	<if test="upSysname!=null and upSysname!=''">up_sysname=#{upSysname},</if>
+	<if test="loadFromFile!=null and loadFromFile!=''">load_from_file=#{loadFromFile},</if>
+	<if test="fileRowFlag!=null and fileRowFlag!=''">file_row_flag=#{fileRowFlag},</if>
+	<if test="loadWarnFlag!=null and loadWarnFlag!=''">load_warn_flag=#{loadWarnFlag},</if>
+	<if test="diffCompMethod!=null and diffCompMethod!=''">diff_comp_method=#{diffCompMethod},</if>
+	<if test="limitPercent!=null and limitPercent!=''">limit_percent=#{limitPercent},</if>
+	<if test="diffDealMethod!=null and diffDealMethod!=''">diff_deal_method=#{diffDealMethod},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+	<if test="confSort!=null and confSort!=''">conf_sort=#{confSort},</if>
+	<if test="loadSeparator!=null and loadSeparator!=''">load_separator=#{loadSeparator},</if>
+	<if test="beforeLoadSql!=null and beforeLoadSql!=''">before_load_sql=#{beforeLoadSql},</if>
+	<if test="afterLoadSql!=null and afterLoadSql!=''">after_load_sql=#{afterLoadSql},</if>
+	<if test="fileCharset!=null and fileCharset!=''">file_charset=#{fileCharset},</if>
+	<if test="loadBufferSize!=null and loadBufferSize!=''">load_buffer_size=#{loadBufferSize},</if>
+	<if test="loadFaildDeal!=null and loadFaildDeal!=''">load_faild_deal=#{loadFaildDeal},</if>
+	<if test="loadFields!=null and loadFields!=''">load_fields=#{loadFields},</if>
+	<if test="createTableDdl!=null and createTableDdl!=''">create_table_ddl=#{createTableDdl},</if>
+		</trim>
+  		 where 
+				table_name = #{tableName}
+				 and plugin_conf_id = #{pluginConfId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadConf">
+  	delete from plugin_load_conf where 
+					table_name = #{tableName}
+					 and plugin_conf_id = #{pluginConfId}
+  </delete>
+  	
+  	<insert id="insertPluginLoadConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadConf">
+  		insert into plugin_load_conf(
+				table_name,
+							table_cnname,
+							table_type,
+							table_load_mode,
+							up_sysname,
+							load_from_file,
+							file_row_flag,
+							load_warn_flag,
+							diff_comp_method,
+							limit_percent,
+							diff_deal_method,
+							last_modify_date,
+							plugin_conf_id,
+							conf_sort,
+							load_separator,
+							before_load_sql,
+							after_load_sql,
+							file_charset,
+							load_buffer_size,
+							load_faild_deal,
+							load_fields,
+							create_table_ddl
+			)
+  			values(
+  		#{tableName},
+  		  		#{tableCnname},
+  		  		#{tableType},
+  		  		#{tableLoadMode},
+  		  		#{upSysname},
+  		  		#{loadFromFile},
+  		  		#{fileRowFlag},
+  		  		#{loadWarnFlag},
+  		  		#{diffCompMethod},
+  		  		#{limitPercent},
+  		  		#{diffDealMethod},
+  		  		#{lastModifyDate},
+  		  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{loadSeparator},
+  		  		#{beforeLoadSql},
+  		  		#{afterLoadSql},
+  		  		#{fileCharset},
+  		  		#{loadBufferSize},
+  		  		#{loadFaildDeal},
+  		  		#{loadFields},
+  		  		#{createTableDdl}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginLoadConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_load_conf WHERE 1=1
+			<if test="tableName!=null and ''!=tableName"> AND table_name=#{tableName}</if>
+			<if test="tableCnname!=null and ''!=tableCnname"> AND table_cnname=#{tableCnname}</if>
+			<if test="tableType!=null and ''!=tableType"> AND table_type=#{tableType}</if>
+			<if test="tableLoadMode!=null and ''!=tableLoadMode"> AND table_load_mode=#{tableLoadMode}</if>
+			<if test="upSysname!=null and ''!=upSysname"> AND up_sysname=#{upSysname}</if>
+			<if test="loadFromFile!=null and ''!=loadFromFile"> AND load_from_file=#{loadFromFile}</if>
+			<if test="fileRowFlag!=null and ''!=fileRowFlag"> AND file_row_flag=#{fileRowFlag}</if>
+			<if test="loadWarnFlag!=null and ''!=loadWarnFlag"> AND load_warn_flag=#{loadWarnFlag}</if>
+			<if test="diffCompMethod!=null and ''!=diffCompMethod"> AND diff_comp_method=#{diffCompMethod}</if>
+			<if test="limitPercent!=null and ''!=limitPercent"> AND limit_percent=#{limitPercent}</if>
+			<if test="diffDealMethod!=null and ''!=diffDealMethod"> AND diff_deal_method=#{diffDealMethod}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="loadSeparator!=null and ''!=loadSeparator"> AND load_separator=#{loadSeparator}</if>
+			<if test="beforeLoadSql!=null and ''!=beforeLoadSql"> AND before_load_sql=#{beforeLoadSql}</if>
+			<if test="afterLoadSql!=null and ''!=afterLoadSql"> AND after_load_sql=#{afterLoadSql}</if>
+			<if test="fileCharset!=null and ''!=fileCharset"> AND file_charset=#{fileCharset}</if>
+			<if test="loadBufferSize!=null and ''!=loadBufferSize"> AND load_buffer_size=#{loadBufferSize}</if>
+			<if test="loadFaildDeal!=null and ''!=loadFaildDeal"> AND load_faild_deal=#{loadFaildDeal}</if>
+			<if test="loadFields!=null and ''!=loadFields"> AND load_fields=#{loadFields}</if>
+			<if test="createTableDdl!=null and ''!=createTableDdl"> AND create_table_ddl=#{createTableDdl}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginLoadConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_load_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginLoadConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_load_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

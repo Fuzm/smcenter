@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SSrvsCronConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SSrvsCronConf" id="sSrvsCronConfList">
+		<result property="jobCode" column="job_code"/>
+		<result property="jobDesc" column="job_desc"/>
+		<result property="jobClassType" column="job_class_type" />
+		<result property="jobClass" column="job_class"/>
+		<result property="jobMethod" column="job_method"/>
+		<result property="serviceVersion" column="service_version" />
+		<result property="serviceGroup" column="service_group" />
+		<result property="serviceTimeout" column="service_timeout" />
+		<result property="cronExpression" column="cron_expression"/>
+		<result property="againTime" column="again_time"/>
+		<result property="retrySecond" column="retry_second"/>
+		<result property="agentId" column="agent_id"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	job_code,job_desc,job_class_type,job_class,job_method,service_version, service_group, service_timeout, cron_expression,again_time,retry_second,agent_id,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="sSrvsCronConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_srvs_cron_conf where 
+				job_code = #{jobCode}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronConf">
+  		update s_srvs_cron_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="jobDesc!=null and jobDesc!=''">job_desc=#{jobDesc},</if>
+	<if test="jobClassType!=null and jobClassType!=''">job_class_type=#{jobClassType},</if>
+	<if test="jobClass!=null and jobClass!=''">job_class=#{jobClass},</if>
+	<if test="jobMethod!=null and jobMethod!=''">job_method=#{jobMethod},</if>
+	<if test="cronExpression!=null and cronExpression!=''">cron_expression=#{cronExpression},</if>
+	<if test="retrySecond!=null and retrySecond!=''">retry_second=#{retrySecond},</if>
+	<if test="agentId!=null and agentId!=''">agent_id=#{agentId},</if>
+			again_time=#{againTime},
+			service_version=#{serviceVersion},
+			service_group=#{serviceGroup},
+			service_timeout=#{serviceTimeout},
+	        remark=#{remark}
+		</trim>
+  		 where job_code = #{jobCode}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronConf">
+  	delete from s_srvs_cron_conf where job_code = #{jobCode}
+  </delete>
+  	
+  	<insert id="insertSSrvsCronConf" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronConf">
+  		insert into s_srvs_cron_conf(
+				job_code,
+				job_desc,
+				job_class_type,
+				job_class,
+				job_method,
+				service_version,
+				service_group,
+				service_timeout,
+				cron_expression,
+				again_time,
+				retry_second,
+				agent_id,
+				remark
+			)
+  			values(
+  		#{jobCode},
+  		  		#{jobDesc},
+  		  		#{jobClassType},
+  		  		#{jobClass},
+  		  		#{jobMethod},
+  		  		#{serviceVersion},
+  		  		#{serviceGroup},
+  		  		#{serviceTimeout},
+  		  		#{cronExpression},
+  		  		#{againTime},
+  		  		#{retrySecond},
+  		  		#{agentId},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sSrvsCronConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_conf WHERE 1=1
+			<if test="jobCode!=null and ''!=jobCode"> AND job_code=#{jobCode}</if>
+			<if test="jobDesc!=null and ''!=jobDesc"> AND job_desc=#{jobDesc}</if>
+			<if test="jobClassType!=null and ''!=jobClassType"> AND job_class_type=#{jobClassType}</if>
+			<if test="jobClass!=null and ''!=jobClass"> AND job_class=#{jobClass}</if>
+			<if test="jobMethod!=null and ''!=jobMethod"> AND job_method=#{jobMethod}</if>
+			<if test="cronExpression!=null and ''!=cronExpression"> AND cron_expression=#{cronExpression}</if>
+			<if test="againTime!=null and ''!=againTime"> AND again_time=#{againTime}</if>
+			<if test="retrySecond!=null and ''!=retrySecond"> AND retry_second=#{retrySecond}</if>
+			<if test="agentId!=null and ''!=agentId"> AND agent_id=#{agentId}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+			 order by job_code
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sSrvsCronConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sSrvsCronConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_srvs_cron_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

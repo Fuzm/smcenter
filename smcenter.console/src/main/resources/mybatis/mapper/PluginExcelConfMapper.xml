@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginExcelConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginExcelConf" id="pluginExcelConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="excelOperType" column="excel_oper_type"/>
+		<result property="paramKeyValue" column="param_key_value"/>
+		<result property="configureFile" column="configure_file"/>
+		<result property="faildDeal" column="faild_deal"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,excel_oper_type,param_key_value,configure_file,faild_deal,last_modify_date
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginExcelConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExcelConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_excel_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExcelConf">
+  		update plugin_excel_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="excelOperType!=null and excelOperType!=''">excel_oper_type=#{excelOperType},</if>
+	<if test="paramKeyValue!=null and paramKeyValue!=''">param_key_value=#{paramKeyValue},</if>
+	<if test="configureFile!=null and configureFile!=''">configure_file=#{configureFile},</if>
+	<if test="faildDeal!=null and faildDeal!=''">faild_deal=#{faildDeal},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExcelConf">
+  	delete from plugin_excel_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginExcelConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExcelConf">
+  		insert into plugin_excel_conf(
+				plugin_conf_id,
+							conf_sort,
+							excel_oper_type,
+							param_key_value,
+							configure_file,
+							faild_deal,
+							last_modify_date
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{excelOperType},
+  		  		#{paramKeyValue},
+  		  		#{configureFile},
+  		  		#{faildDeal},
+  		  		#{lastModifyDate}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginExcelConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExcelConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_excel_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="excelOperType!=null and ''!=excelOperType"> AND excel_oper_type=#{excelOperType}</if>
+			<if test="paramKeyValue!=null and ''!=paramKeyValue"> AND param_key_value=#{paramKeyValue}</if>
+			<if test="configureFile!=null and ''!=configureFile"> AND configure_file=#{configureFile}</if>
+			<if test="faildDeal!=null and ''!=faildDeal"> AND faild_deal=#{faildDeal}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginExcelConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExcelConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_excel_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginExcelConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExcelConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_excel_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

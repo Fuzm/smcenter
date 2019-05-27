@@ -1,0 +1,40 @@
+#作用:用于配置每个表应该如何装载
+#版权:北京易初公司
+#编写:lgm
+#日期:2008-11-17
+#修改日志:
+
+#其它说明:在解释本属性文件时,碰到如下关键单词时,要当作变量处理,应替换成相应的值
+#	  [YEAR]  : 代入系统中的当前年
+#	  [MONTH] : 代入系统中的当前月
+#	  [DAY]   : 代入系统中的当前日
+
+
+
+#指定从那个文件中导入数据
+Load.fromFile  = it_mx_pkdkmx.txt
+
+#指定文件中如何分离数据,即分隔符
+Load.Separator = |
+
+
+#指定装载数据模式,1为先导入模式(先删除表,后导入),2为追加导入模式
+Load.Mode = 1
+
+#指定要导入到那个表,程序应当检测是否存在该表
+#如不存在,应使用该文件配置的建表语句进行建表操作(配置表名时可使用变量)
+Load.destTable = it_mx_pkdkmx
+
+#指定建表语句(可使用变量)
+Load.createTable = CREATE TABLE IT_MX_PKDKMX (JJBH   VARCHAR(32)      NOT NULL,DKLX   VARCHAR(1)       NOT NULL,JYRQ   VARCHAR(10)      NOT NULL,GYLSH  VARCHAR(20)      NOT NULL,QS     INT              NOT NULL,HKFS   VARCHAR(2)       NOT NULL,BJ     DECIMAL(16,2)    NOT NULL,LX     DECIMAL(16,2)    NOT NULL)
+#指定进行加载前需要进行的操作语句(可使用变量),可配置多条,以;号隔开
+Load.beforeLoad =
+
+#指定表中的那些字段需要导入数据,顺序很重要,以便于对应文本文件中的数据,逗号分隔
+Load.Fields = 
+
+#指定表Load.Fields中字段的类型,一定要对应,顺序要正确
+Load.dataTypes = 
+
+#指定数据装载完后需要进行操作的语句(可使用变量),可配置多条,以;隔开
+Load.afterLoad = 

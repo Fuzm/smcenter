@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatBatchStageConfigDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatBatchStageConfig" id="batBatchStageConfigList">
+		<result property="stageId" column="stage_id"/>
+		<result property="stageName" column="stage_name"/>
+		<result property="batchId" column="batch_id"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	stage_id,stage_name,batch_id,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="batBatchStageConfigList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchStageConfig">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_batch_stage_config where 
+				stage_id = #{stageId}
+				 and batch_id = #{batchId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchStageConfig">
+  		update bat_batch_stage_config 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="stageName!=null and stageName!=''">stage_name=#{stageName},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+		</trim>
+  		 where 
+				stage_id = #{stageId}
+				 and batch_id = #{batchId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchStageConfig">
+  	delete from bat_batch_stage_config where 
+					stage_id = #{stageId}
+					 and batch_id = #{batchId}
+  </delete>
+  	
+  	<insert id="insertBatBatchStageConfig" parameterType="com.irdstudio.smcenter.console.dao.domain.BatBatchStageConfig">
+  		insert into bat_batch_stage_config(
+				stage_id,
+							stage_name,
+							batch_id,
+							remark
+			)
+  			values(
+  		#{stageId},
+  		  		#{stageName},
+  		  		#{batchId},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batBatchStageConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchStageConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_batch_stage_config WHERE 1=1
+			<if test="stageId!=null and ''!=stageId"> AND stage_id=#{stageId}</if>
+			<if test="stageName!=null and ''!=stageName"> AND stage_name=#{stageName}</if>
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+			order by batch_id,stage_id
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batBatchStageConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchStageConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_batch_stage_config WHERE INPUT_BR_ID = #{loginUserOrgCode} order by batch_id,stage_id
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batBatchStageConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatBatchStageConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_batch_stage_config O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

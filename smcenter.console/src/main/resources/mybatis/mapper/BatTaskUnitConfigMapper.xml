@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatTaskUnitConfigDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatTaskUnitConfig" id="batTaskUnitConfigList">
+		<result property="taskName" column="task_name"/>
+		<result property="taskId" column="task_id"/>
+		<result property="previousTaskId" column="previous_task_id"/>
+		<result property="batchId" column="batch_id"/>
+		<result property="stageId" column="stage_id"/>
+		<result property="localeId" column="locale_id"/>
+		<result property="pluginId" column="plugin_id"/>
+		<result property="pluginSourceType" column="plugin_source_type"/>
+		<result property="pluginParaFlag" column="plugin_para_flag"/>
+		<result property="taskPri" column="task_pri"/>
+		<result property="taskRunType" column="task_run_type"/>
+		<result property="taskCycleType" column="task_cycle_type"/>
+		<result property="taskCronValue" column="task_cron_value"/>
+		<result property="taskDelayTime" column="task_delay_time"/>
+		<result property="taskSkipTactic" column="task_skip_tactic"/>
+		<result property="againRunSpace" column="again_run_space"/>
+		<result property="taskEstimateTime" column="task_estimate_time"/>
+		<result property="taskUseState" column="task_use_state"/>
+		<result property="maxRunCount" column="max_run_count"/>
+		<result property="taskTimeoutTime" column="task_timeout_time"/>
+		<result property="taskTimeoutTactic" column="task_timeout_tactic"/>
+		<result property="subsDsCode" column="subs_ds_code"/>
+		<result property="taskUseArea" column="task_use_area"/>
+		<result property="pluginType" column="plugin_type"/>
+		<result property="maxWaitTime" column="max_wait_time"/>
+		<result property="cycleInteval" column="cycle_inteval"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	task_name,task_id,previous_task_id,batch_id,stage_id,locale_id,plugin_id,plugin_source_type,plugin_para_flag,task_pri,task_run_type,task_cycle_type,task_cron_value,task_delay_time,task_skip_tactic,again_run_space,task_estimate_time,task_use_state,max_run_count,task_timeout_time,task_timeout_tactic,subs_ds_code,task_use_area,plugin_type,max_wait_time,cycle_inteval,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="batTaskUnitConfigList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskUnitConfig">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_task_unit_config where 
+				task_id = #{taskId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskUnitConfig">
+  		update bat_task_unit_config 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="taskName!=null and taskName!=''">task_name=#{taskName},</if>
+	<if test="previousTaskId!=null and previousTaskId!=''">previous_task_id=#{previousTaskId},</if>
+	<if test="batchId!=null and batchId!=''">batch_id=#{batchId},</if>
+	<if test="stageId!=null and stageId!=''">stage_id=#{stageId},</if>
+	<if test="localeId!=null and localeId!=''">locale_id=#{localeId},</if>
+	<if test="pluginId!=null and pluginId!=''">plugin_id=#{pluginId},</if>
+	<if test="pluginSourceType!=null and pluginSourceType!=''">plugin_source_type=#{pluginSourceType},</if>
+	<if test="pluginParaFlag!=null and pluginParaFlag!=''">plugin_para_flag=#{pluginParaFlag},</if>
+	<if test="taskPri!=null and taskPri!=''">task_pri=#{taskPri},</if>
+	<if test="taskRunType!=null and taskRunType!=''">task_run_type=#{taskRunType},</if>
+	<if test="taskCycleType!=null and taskCycleType!=''">task_cycle_type=#{taskCycleType},</if>
+	<if test="taskCronValue!=null and taskCronValue!=''">task_cron_value=#{taskCronValue},</if>
+	<if test="taskDelayTime!=null and taskDelayTime!=''">task_delay_time=#{taskDelayTime},</if>
+	<if test="taskSkipTactic!=null and taskSkipTactic!=''">task_skip_tactic=#{taskSkipTactic},</if>
+	<if test="againRunSpace!=null and againRunSpace!=''">again_run_space=#{againRunSpace},</if>
+	<if test="taskEstimateTime!=null and taskEstimateTime!=''">task_estimate_time=#{taskEstimateTime},</if>
+	<if test="taskUseState!=null and taskUseState!=''">task_use_state=#{taskUseState},</if>
+	<if test="maxRunCount!=null and maxRunCount!=''">max_run_count=#{maxRunCount},</if>
+	<if test="taskTimeoutTime!=null and taskTimeoutTime!=''">task_timeout_time=#{taskTimeoutTime},</if>
+	<if test="taskTimeoutTactic!=null and taskTimeoutTactic!=''">task_timeout_tactic=#{taskTimeoutTactic},</if>
+	<if test="subsDsCode!=null and subsDsCode!=''">subs_ds_code=#{subsDsCode},</if>
+	<if test="taskUseArea!=null and taskUseArea!=''">task_use_area=#{taskUseArea},</if>
+	<if test="pluginType!=null and pluginType!=''">plugin_type=#{pluginType},</if>
+	<if test="maxWaitTime!=null and maxWaitTime!=''">max_wait_time=#{maxWaitTime},</if>
+	<if test="cycleInteval!=null and cycleInteval!=''">cycle_inteval=#{cycleInteval},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+		</trim>
+  		 where 
+				task_id = #{taskId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskUnitConfig">
+  	delete from bat_task_unit_config where 
+					task_id = #{taskId}
+  </delete>
+  	
+  	<insert id="insertBatTaskUnitConfig" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskUnitConfig">
+  		insert into bat_task_unit_config(
+				task_name,
+							task_id,
+							previous_task_id,
+							batch_id,
+							stage_id,
+							locale_id,
+							plugin_id,
+							plugin_source_type,
+							plugin_para_flag,
+							task_pri,
+							task_run_type,
+							task_cycle_type,
+							task_cron_value,
+							task_delay_time,
+							task_skip_tactic,
+							again_run_space,
+							task_estimate_time,
+							task_use_state,
+							max_run_count,
+							task_timeout_time,
+							task_timeout_tactic,
+							subs_ds_code,
+							task_use_area,
+							plugin_type,
+							max_wait_time,
+							cycle_inteval,
+							remark
+			)
+  			values(
+  		#{taskName},
+  		  		#{taskId},
+  		  		#{previousTaskId},
+  		  		#{batchId},
+  		  		#{stageId},
+  		  		#{localeId},
+  		  		#{pluginId},
+  		  		#{pluginSourceType},
+  		  		#{pluginParaFlag},
+  		  		#{taskPri},
+  		  		#{taskRunType},
+  		  		#{taskCycleType},
+  		  		#{taskCronValue},
+  		  		#{taskDelayTime},
+  		  		#{taskSkipTactic},
+  		  		#{againRunSpace},
+  		  		#{taskEstimateTime},
+  		  		#{taskUseState},
+  		  		#{maxRunCount},
+  		  		#{taskTimeoutTime},
+  		  		#{taskTimeoutTactic},
+  		  		#{subsDsCode},
+  		  		#{taskUseArea},
+  		  		#{pluginType},
+  		  		#{maxWaitTime},
+  		  		#{cycleInteval},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batTaskUnitConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskUnitConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_task_unit_config WHERE 1=1
+			<if test="taskName!=null and ''!=taskName"> AND task_name=#{taskName}</if>
+			<if test="taskId!=null and ''!=taskId"> AND task_id=#{taskId}</if>
+			<if test="previousTaskId!=null and ''!=previousTaskId"> AND previous_task_id=#{previousTaskId}</if>
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+			<if test="stageId!=null and ''!=stageId"> AND stage_id=#{stageId}</if>
+			<if test="localeId!=null and ''!=localeId"> AND locale_id=#{localeId}</if>
+			<if test="pluginId!=null and ''!=pluginId"> AND plugin_id=#{pluginId}</if>
+			<if test="pluginSourceType!=null and ''!=pluginSourceType"> AND plugin_source_type=#{pluginSourceType}</if>
+			<if test="pluginParaFlag!=null and ''!=pluginParaFlag"> AND plugin_para_flag=#{pluginParaFlag}</if>
+			<if test="taskPri!=null and ''!=taskPri"> AND task_pri=#{taskPri}</if>
+			<if test="taskRunType!=null and ''!=taskRunType"> AND task_run_type=#{taskRunType}</if>
+			<if test="taskCycleType!=null and ''!=taskCycleType"> AND task_cycle_type=#{taskCycleType}</if>
+			<if test="taskCronValue!=null and ''!=taskCronValue"> AND task_cron_value=#{taskCronValue}</if>
+			<if test="taskDelayTime!=null and ''!=taskDelayTime"> AND task_delay_time=#{taskDelayTime}</if>
+			<if test="taskSkipTactic!=null and ''!=taskSkipTactic"> AND task_skip_tactic=#{taskSkipTactic}</if>
+			<if test="againRunSpace!=null and ''!=againRunSpace"> AND again_run_space=#{againRunSpace}</if>
+			<if test="taskEstimateTime!=null and ''!=taskEstimateTime"> AND task_estimate_time=#{taskEstimateTime}</if>
+			<if test="taskUseState!=null and ''!=taskUseState"> AND task_use_state=#{taskUseState}</if>
+			<if test="maxRunCount!=null and ''!=maxRunCount"> AND max_run_count=#{maxRunCount}</if>
+			<if test="taskTimeoutTime!=null and ''!=taskTimeoutTime"> AND task_timeout_time=#{taskTimeoutTime}</if>
+			<if test="taskTimeoutTactic!=null and ''!=taskTimeoutTactic"> AND task_timeout_tactic=#{taskTimeoutTactic}</if>
+			<if test="subsDsCode!=null and ''!=subsDsCode"> AND subs_ds_code=#{subsDsCode}</if>
+			<if test="taskUseArea!=null and ''!=taskUseArea"> AND task_use_area=#{taskUseArea}</if>
+			<if test="pluginType!=null and ''!=pluginType"> AND plugin_type=#{pluginType}</if>
+			<if test="maxWaitTime!=null and ''!=maxWaitTime"> AND max_wait_time=#{maxWaitTime}</if>
+			<if test="cycleInteval!=null and ''!=cycleInteval"> AND cycle_inteval=#{cycleInteval}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if> order by task_id
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batTaskUnitConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskUnitConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_task_unit_config WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batTaskUnitConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskUnitConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_task_unit_config O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

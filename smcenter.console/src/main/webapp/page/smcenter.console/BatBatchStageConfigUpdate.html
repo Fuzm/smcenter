@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>批次任务阶段修改</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/css/esaas-easyui-edit.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<body class="easyui-layout" scroll="no">
+	<form id="ff" method="post">
+		<div class="esaas-info-title">批次任务阶段信息</div>
+		<table class="esaas-info-edit-table">
+			<tr>
+				<td width="15%" align="right">批次标识：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="batchId" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">阶段编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="stageId" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">阶段名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="stageName" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">备注：</td>
+				<td width="85%" colspan="3"><input class="easyui-textbox" type="text"
+					name="remark" data-options="required:false, multiline: true"
+					style="width: 100%; height: 50px;"></input></td>
+			</tr>
+		</table>
+	</form>
+	<div style="text-align: center; padding: 15px">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="submitForm()">&nbsp;保&nbsp;存&nbsp;</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="closeForm()">&nbsp;关&nbsp;闭&nbsp;</a>
+	</div>
+	<script>		
+		$(function() {
+			var stageId = $.getUrlParam('stageId');
+			var batchId = $.getUrlParam('batchId');
+			$.restfulGet('../../api/bat/batch/stage/config/' + stageId + '/' + batchId,null,function(data){
+					$('#ff').form('load', {
+						stageId : data.rows.stageId,
+						stageName : data.rows.stageName,
+						batchId : data.rows.batchId,
+						remark : data.rows.remark
+					});					
+			});
+		});
+	
+		function submitForm() {
+			if (!$('#ff').form('validate'))
+				return;
+			var jsonData = $("#ff").serializeJson();
+			$.restfulPut('../../api/bat/batch/stage/config', jsonData, function(data) {
+				window.parent.reloadList();
+			});
+		};
+		
+		function closeForm(){
+			window.parent.JLEUtil.closewin();
+		}
+	</script>
+</body>
+</html>

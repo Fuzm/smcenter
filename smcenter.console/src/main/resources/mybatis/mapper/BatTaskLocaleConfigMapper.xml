@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatTaskLocaleConfigDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatTaskLocaleConfig" id="batTaskLocaleConfigList">
+		<result property="localeId" column="locale_id"/>
+		<result property="localeName" column="locale_name"/>
+		<result property="localeType" column="locale_type"/>
+		<result property="localeIp" column="locale_ip"/>
+		<result property="localePort" column="locale_port"/>
+		<result property="loginType" column="login_type"/>
+		<result property="loginUser" column="login_user"/>
+		<result property="loginPwd" column="login_pwd"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	locale_id,locale_name,locale_type,locale_ip,locale_port,login_type,login_user,login_pwd,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="batTaskLocaleConfigList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskLocaleConfig">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_task_locale_config where 
+				locale_id = #{localeId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskLocaleConfig">
+  		update bat_task_locale_config 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="localeName!=null and localeName!=''">locale_name=#{localeName},</if>
+	<if test="localeType!=null and localeType!=''">locale_type=#{localeType},</if>
+	<if test="localeIp!=null and localeIp!=''">locale_ip=#{localeIp},</if>
+	<if test="localePort!=null and localePort!=''">locale_port=#{localePort},</if>
+	<if test="loginType!=null and loginType!=''">login_type=#{loginType},</if>
+	<if test="loginUser!=null and loginUser!=''">login_user=#{loginUser},</if>
+	<if test="loginPwd!=null and loginPwd!=''">login_pwd=#{loginPwd},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+		</trim>
+  		 where 
+				locale_id = #{localeId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskLocaleConfig">
+  	delete from bat_task_locale_config where 
+					locale_id = #{localeId}
+  </delete>
+  	
+  	<insert id="insertBatTaskLocaleConfig" parameterType="com.irdstudio.smcenter.console.dao.domain.BatTaskLocaleConfig">
+  		insert into bat_task_locale_config(
+				locale_id,
+							locale_name,
+							locale_type,
+							locale_ip,
+							locale_port,
+							login_type,
+							login_user,
+							login_pwd,
+							remark
+			)
+  			values(
+  		#{localeId},
+  		  		#{localeName},
+  		  		#{localeType},
+  		  		#{localeIp},
+  		  		#{localePort},
+  		  		#{loginType},
+  		  		#{loginUser},
+  		  		#{loginPwd},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batTaskLocaleConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskLocaleConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_task_locale_config WHERE 1=1
+			<if test="localeId!=null and ''!=localeId"> AND locale_id=#{localeId}</if>
+			<if test="localeName!=null and ''!=localeName"> AND locale_name=#{localeName}</if>
+			<if test="localeType!=null and ''!=localeType"> AND locale_type=#{localeType}</if>
+			<if test="localeIp!=null and ''!=localeIp"> AND locale_ip=#{localeIp}</if>
+			<if test="localePort!=null and ''!=localePort"> AND locale_port=#{localePort}</if>
+			<if test="loginType!=null and ''!=loginType"> AND login_type=#{loginType}</if>
+			<if test="loginUser!=null and ''!=loginUser"> AND login_user=#{loginUser}</if>
+			<if test="loginPwd!=null and ''!=loginPwd"> AND login_pwd=#{loginPwd}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batTaskLocaleConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskLocaleConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_task_locale_config WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batTaskLocaleConfigList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatTaskLocaleConfigVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_task_locale_config O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

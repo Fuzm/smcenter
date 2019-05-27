@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SSrvsCronHisDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SSrvsCronHis" id="sSrvsCronHisList">
+		<result property="recordId" column="record_id"/>
+		<result property="jobCode" column="job_code"/>
+		<result property="jobDesc" column="job_desc"/>
+		<result property="state" column="state"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="costTime" column="cost_time"/>
+		<result property="agentId" column="agent_id"/>
+		<result property="resultDesc" column="result_desc"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	record_id,job_code,job_desc,state,start_time,end_time,cost_time,agent_id,result_desc
+  </sql>
+  
+  <select id="queryByPk" resultMap="sSrvsCronHisList" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronHis">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_srvs_cron_his where 
+				record_id = #{recordId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronHis">
+  		update s_srvs_cron_his 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="jobCode!=null and jobCode!=''">job_code=#{jobCode},</if>
+	<if test="jobDesc!=null and jobDesc!=''">job_desc=#{jobDesc},</if>
+	<if test="state!=null and state!=''">state=#{state},</if>
+	<if test="startTime!=null and startTime!=''">start_time=#{startTime},</if>
+	<if test="endTime!=null and endTime!=''">end_time=#{endTime},</if>
+	<if test="costTime!=null and costTime!=''">cost_time=#{costTime},</if>
+	<if test="agentId!=null and agentId!=''">agent_id=#{agentId},</if>
+	<if test="resultDesc!=null and resultDesc!=''">result_desc=#{resultDesc},</if>
+		</trim>
+  		 where 
+				record_id = #{recordId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronHis">
+  	delete from s_srvs_cron_his where 
+					record_id = #{recordId}
+  </delete>
+  	
+  	<insert id="insertSSrvsCronHis" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronHis">
+  		insert into s_srvs_cron_his(
+				record_id,
+							job_code,
+							job_desc,
+							state,
+							start_time,
+							end_time,
+							cost_time,
+							agent_id,
+							result_desc
+			)
+  			values(
+  		#{recordId},
+  		  		#{jobCode},
+  		  		#{jobDesc},
+  		  		#{state},
+  		  		#{startTime},
+  		  		#{endTime},
+  		  		#{costTime},
+  		  		#{agentId},
+  		  		#{resultDesc}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sSrvsCronHisList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronHisVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_his WHERE 1=1
+			<if test="recordId!=null and ''!=recordId"> AND record_id=#{recordId}</if>
+			<if test="jobCode!=null and ''!=jobCode"> AND job_code=#{jobCode}</if>
+			<if test="jobDesc!=null and ''!=jobDesc"> AND job_desc=#{jobDesc}</if>
+			<if test="state!=null and ''!=state"> AND state=#{state}</if>
+			<if test="startTime!=null and ''!=startTime"> AND start_time=#{startTime}</if>
+			<if test="endTime!=null and ''!=endTime"> AND end_time=#{endTime}</if>
+			<if test="costTime!=null and ''!=costTime"> AND cost_time=#{costTime}</if>
+			<if test="agentId!=null and ''!=agentId"> AND agent_id=#{agentId}</if>
+			<if test="resultDesc!=null and ''!=resultDesc"> AND result_desc=#{resultDesc}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sSrvsCronHisList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronHisVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_his WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sSrvsCronHisList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronHisVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_srvs_cron_his O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

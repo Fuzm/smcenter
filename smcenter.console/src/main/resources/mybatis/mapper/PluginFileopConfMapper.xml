@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginFileopConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginFileopConf" id="pluginFileopConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="fileOp" column="file_op"/>
+		<result property="opCycleDay" column="op_cycle_day"/>
+		<result property="lastOpDate" column="last_op_date"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+		<result property="distanceDay" column="distance_day"/>
+		<result property="fileTarget" column="file_target"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,file_op,op_cycle_day,last_op_date,last_modify_date,distance_day,file_target
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginFileopConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginFileopConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_fileop_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginFileopConf">
+  		update plugin_fileop_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="fileOp!=null and fileOp!=''">file_op=#{fileOp},</if>
+	<if test="opCycleDay!=null and opCycleDay!=''">op_cycle_day=#{opCycleDay},</if>
+	<if test="lastOpDate!=null and lastOpDate!=''">last_op_date=#{lastOpDate},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+	<if test="distanceDay!=null and distanceDay!=''">distance_day=#{distanceDay},</if>
+	<if test="fileTarget!=null and fileTarget!=''">file_target=#{fileTarget},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginFileopConf">
+  	delete from plugin_fileop_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginFileopConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginFileopConf">
+  		insert into plugin_fileop_conf(
+				plugin_conf_id,
+							conf_sort,
+							file_op,
+							op_cycle_day,
+							last_op_date,
+							last_modify_date,
+							distance_day,
+							file_target
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{fileOp},
+  		  		#{opCycleDay},
+  		  		#{lastOpDate},
+  		  		#{lastModifyDate},
+  		  		#{distanceDay},
+  		  		#{fileTarget}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginFileopConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginFileopConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_fileop_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="fileOp!=null and ''!=fileOp"> AND file_op=#{fileOp}</if>
+			<if test="opCycleDay!=null and ''!=opCycleDay"> AND op_cycle_day=#{opCycleDay}</if>
+			<if test="lastOpDate!=null and ''!=lastOpDate"> AND last_op_date=#{lastOpDate}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+			<if test="distanceDay!=null and ''!=distanceDay"> AND distance_day=#{distanceDay}</if>
+			<if test="fileTarget!=null and ''!=fileTarget"> AND file_target=#{fileTarget}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginFileopConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginFileopConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_fileop_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginFileopConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginFileopConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_fileop_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

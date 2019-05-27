@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginExportConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginExportConf" id="pluginExportConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="exportMode" column="export_mode"/>
+		<result property="exportTarget" column="export_target"/>
+		<result property="exportToFile" column="export_to_file"/>
+		<result property="fieldSeparator" column="field_separator"/>
+		<result property="fileCharset" column="file_charset"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,export_mode,export_target,export_to_file,field_separator,file_charset
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginExportConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExportConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_export_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExportConf">
+  		update plugin_export_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="exportMode!=null and exportMode!=''">export_mode=#{exportMode},</if>
+	<if test="exportTarget!=null and exportTarget!=''">export_target=#{exportTarget},</if>
+	<if test="exportToFile!=null and exportToFile!=''">export_to_file=#{exportToFile},</if>
+	<if test="fieldSeparator!=null and fieldSeparator!=''">field_separator=#{fieldSeparator},</if>
+	<if test="fileCharset!=null and fileCharset!=''">file_charset=#{fileCharset},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExportConf">
+  	delete from plugin_export_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginExportConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginExportConf">
+  		insert into plugin_export_conf(
+				plugin_conf_id,
+							conf_sort,
+							export_mode,
+							export_target,
+							export_to_file,
+							field_separator,
+							file_charset
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{exportMode},
+  		  		#{exportTarget},
+  		  		#{exportToFile},
+  		  		#{fieldSeparator},
+  		  		#{fileCharset}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginExportConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExportConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_export_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="exportMode!=null and ''!=exportMode"> AND export_mode=#{exportMode}</if>
+			<if test="exportTarget!=null and ''!=exportTarget"> AND export_target=#{exportTarget}</if>
+			<if test="exportToFile!=null and ''!=exportToFile"> AND export_to_file=#{exportToFile}</if>
+			<if test="fieldSeparator!=null and ''!=fieldSeparator"> AND field_separator=#{fieldSeparator}</if>
+			<if test="fileCharset!=null and ''!=fileCharset"> AND file_charset=#{fileCharset}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginExportConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExportConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_export_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginExportConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginExportConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_export_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

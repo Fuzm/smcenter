@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SSrvsCronInstDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SSrvsCronInst" id="sSrvsCronInstList">
+		<result property="jobCode" column="job_code"/>
+		<result property="jobDesc" column="job_desc"/>
+		<result property="state" column="state"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="costTime" column="cost_time"/>
+		<result property="agentId" column="agent_id"/>
+		<result property="resultDesc" column="result_desc"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	job_code,job_desc,state,start_time,end_time,cost_time,agent_id,result_desc
+  </sql>
+  
+  <select id="queryByPk" resultMap="sSrvsCronInstList" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronInst">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_srvs_cron_inst where 
+				job_code = #{jobCode}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronInst">
+  		update s_srvs_cron_inst 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="jobDesc!=null and jobDesc!=''">job_desc=#{jobDesc},</if>
+	<if test="state!=null and state!=''">state=#{state},</if>
+	<if test="startTime!=null and startTime!=''">start_time=#{startTime},</if>
+	<if test="endTime!=null and endTime!=''">end_time=#{endTime},</if>
+	<if test="costTime!=null and costTime!=''">cost_time=#{costTime},</if>
+	<if test="agentId!=null and agentId!=''">agent_id=#{agentId},</if>
+	<if test="resultDesc!=null and resultDesc!=''">result_desc=#{resultDesc},</if>
+		</trim>
+  		 where 
+				job_code = #{jobCode}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronInst">
+  	delete from s_srvs_cron_inst where 
+					job_code = #{jobCode}
+  </delete>
+  	
+  	<insert id="insertSSrvsCronInst" parameterType="com.irdstudio.smcenter.console.dao.domain.SSrvsCronInst">
+  		insert into s_srvs_cron_inst(
+				job_code,
+							job_desc,
+							state,
+							start_time,
+							end_time,
+							cost_time,
+							agent_id,
+							result_desc
+			)
+  			values(
+  		#{jobCode},
+  		  		#{jobDesc},
+  		  		#{state},
+  		  		#{startTime},
+  		  		#{endTime},
+  		  		#{costTime},
+  		  		#{agentId},
+  		  		#{resultDesc}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sSrvsCronInstList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronInstVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_inst WHERE 1=1
+			<if test="jobCode!=null and ''!=jobCode"> AND job_code=#{jobCode}</if>
+			<if test="jobDesc!=null and ''!=jobDesc"> AND job_desc=#{jobDesc}</if>
+			<if test="state!=null and ''!=state"> AND state=#{state}</if>
+			<if test="startTime!=null and ''!=startTime"> AND start_time=#{startTime}</if>
+			<if test="endTime!=null and ''!=endTime"> AND end_time=#{endTime}</if>
+			<if test="costTime!=null and ''!=costTime"> AND cost_time=#{costTime}</if>
+			<if test="agentId!=null and ''!=agentId"> AND agent_id=#{agentId}</if>
+			<if test="resultDesc!=null and ''!=resultDesc"> AND result_desc=#{resultDesc}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sSrvsCronInstList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronInstVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_srvs_cron_inst WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sSrvsCronInstList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSrvsCronInstVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_srvs_cron_inst O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

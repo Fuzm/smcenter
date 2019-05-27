@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>批次实例信息列表</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<script type="text/javascript">
+
+	
+	function reloadList(){
+		$('#dg').datagrid('reload');
+		JLEUtil.closewin();
+	};
+	
+	$(function() {
+		$('#updateBatBatchToStop').linkbutton('disable');
+		$('#updateBatBatchToContinue').linkbutton('disable');
+		$('#updateBatBatchToAgen').linkbutton('disable');
+		$('#batchToRun').linkbutton('disable');
+	});
+	
+	//行选择事件
+	function doOnSelect(rowIndex, rowData) {
+		if (rowData.batchInterveneState == 0 && rowData.batchState != 9) {
+			$('#updateBatBatchToStop').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToStop').linkbutton('disable');
+		}
+		
+		if (rowData.batchState == 1) {
+			$('#updateBatBatchToContinue').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToContinue').linkbutton('disable');
+		}
+		
+		if (rowData.batchInterveneState == 1 || rowData.batchState == 9) {
+			$('#updateBatBatchToAgen').linkbutton('enable');
+			$('#batchToRun').linkbutton('enable');
+		} else {
+			$('#updateBatBatchToAgen').linkbutton('disable');
+			$('#batchToRun').linkbutton('disable');
+		}
+	}
+
+	
+</script>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',title:''" style="height: 40px; background: #F4F4F4;">
+	<form id="searchForm">
+		<table>
+			<tr>
+				<td>&nbsp;批次日期：</td>
+				<td><input name="PRCS_DT" id="PRCS_DT"/></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.queryForm('searchForm','dg','../../api/bat/loans/monitor');">查找</a></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.clearForm('searchForm');">清空</a></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div data-options="region:'center',split:false">
+<table id="dg" class="easyui-datagrid" title="" style="width:100%;height:100%"
+			data-options="singleSelect:true,collapsible:true,url:'../../api/bat/loans/monitor',method:'post',onSelect: doOnSelect"
+			toolbar="#tb"
+		title="Load Data" >
+		<thead>
+			<tr>
+				<th data-options="field:'seq_NO',resizable:true" >日终序号</th>
+				<th data-options="field:'job_NAM',resizable:true" >步骤名</th>
+				<th data-options="field:'prcs_DT',resizable:true" >当前业务日期</th>
+				<th data-options="field:'job_STS',resizable:true" >日终运行状态</th>
+				<th data-options="field:'err_MSG',resizable:true" >错误信息</th>
+				<th data-options="field:'start_RUN_TIME',resizable:true" >开始运行时间</th>
+				<th data-options="field:'mac_TIME',resizable:true" >机器时间</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+</body>
+</html>

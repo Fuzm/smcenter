@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>调度管理中心</title>
+<link href="./static/plugin/dmcenter/css/normalize.css?twitterbutton" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/dmcenter/css/tricks.css?twitterbutton" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/dmcenter/css/elusive-webfont.css?twitterbutton" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/dmcenter/css/codemirror.css?twitterbutton" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/dmcenter/css/screen.css?twitterbutton" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="./static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<script src="./static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="./static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="./static/plugin/easyui/jquery.easyui.ext.js" type="text/javascript" charset="utf-8"></script>
+<script src="./static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="./static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="./static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="./static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="./static/plugin/assets/jslib.menu.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+<script languange="javascript">
+	var topWin = window;
+	function addTab(title, url){    
+	    if ($('#tt').tabs('exists', title)){
+	        $('#tt').tabs('select', title);  
+	    } else {
+	        var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+	        $('#tt').tabs('add',{
+	            title:title,
+	            content:content,
+	            closable:true
+	        });    
+	    }    
+	}
+	
+	function loginOut() {
+		$.restfulPostJson('api/logout', null, function(data) {
+			if(data.code == '0' && data.rows == true) {
+				$(window.location).attr("href", "./login.html");
+			} else {
+				if(data.message) {
+					alert(data.message);
+				} else {
+					alert("登出失败！");
+				}
+			}
+		})
+	}
+	
+	function modifyPassword() {
+		addTab("修改密码", "page/admin/ModifyPassword.html");
+		/* $.restfulPostJson('api/account/modifyUserPwd', null, function(data) {
+			if(data.code == '0' && data.rows == true) {
+				$(window.location).attr("href", "./login.html");
+			} else {
+				if(data.message) {
+					alert(data.message);
+				} else {
+					alert("登出失败！");
+				}
+			}
+		}) */
+	}
+	
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false"
+		style="height: 44px; padding: 0px; overflow: hidden">
+		<div style='display: none'>
+			<input type='hidden' name='csrfmiddlewaretoken'
+				value='4v3pUgaR902n7bgrswCbuCLXlo9vAKuk' />
+		</div>
+		<div id="header">
+			<div id="branding" valign="middle">
+				<span id="logo" valign="middle"><img
+					src="static/img/logo.png" alt="SmartAdmin"
+					style="width: 206px; height: 38px"></span>
+			</div>
+			<div id="actions">
+				<ul class="actionCont collapsed" id="toggleSidebarUl">
+					<li class="actionItem"><a class="aiButton" id="toggleSidebar"
+						title="Toggle sidebar" href="#toggle-sidebar"><span>Hide
+								sidebar</span></a></li>
+				</ul>
+				<ul class="actionCont collapsed">
+					<li class="actionItem jobboard"><a class="aiButton" id="run"
+						title="Run (CTRL + Return)" href="#run"
+						onclick="showTreeMenuBar('menu_app1');document.getElementById('a15').click();window.event.returnValue=false;"><span
+							class="icon-caret-right"></span>调度运行监控</a></li>				
+					<li class="actionItem jobboard"><a class="aiButton" id="run"
+						title="Run (CTRL + Return)" href="#run"
+						onclick="showTreeMenuBar('menu_app2');document.getElementById('a1').click();window.event.returnValue=false;"><span
+							class="icon-caret-right"></span>调度配置管理</a></li>
+					<li class="actionItem jobboard"><a class="aiButton"
+						id="update" title="Update (CTRL + S)" href="#update"
+						onclick="showTreeMenuBar('menu_app3');document.getElementById('a14').click();window.event.returnValue=false;"><span
+							class="icon-pencil"></span>系统管理</a></li>
+				</ul>
+
+
+				<ul class="actionCont right">
+					<li class="actionItem jobboard"><a class="aiButton" href="#"><span
+							class="icon-bullhorn"></span>您好，admin&nbsp;&nbsp;</a></li>
+					<li class="actionItem jobboard"><a class="aiButton" id="modifyPassword" title="modifyPassword" href="javascript:modifyPassword();" >修改密码<span class="icon-user"></span></a></li>
+					<li class="actionItem jobboard"><a class="aiButton" id="loginout" title="loginout" href="javascript:loginOut();" >注销<span class="icon-user"></span></a></li>
+				</ul>
+
+
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'west',title:'导航栏'" style="width:233px;padding:1px;">
+	<ul class="easyui-tree" data-options="animate:true,lines:true" id="menu_app1">
+			<li>
+				<span>调度运行监控</span>
+				<ul>
+					<li>
+						<span><a id="a15" onclick="javascript:addTab('调度运行监控','page/smcenter.console/ScheduleMontior.html');" target="centerFrame">调度运行监控</a></span>
+					</li>
+					<li>
+						<span><a id="a15" onclick="javascript:addTab('批次运行监控','page/smcenter.console/BatInstBatchList.html');" target="centerFrame">批次运行监控</a></span>
+					</li>		
+					<li>
+						<span><a id="a15" onclick="javascript:addTab('核算日终监控','page/smcenter.console/BatInstLoansMonitor.html');" target="centerFrame">核算日终监控</a></span>
+					</li>
+					<li>
+						<span><a id="a15" onclick="javascript:addTab('核算任务监控','page/smcenter.console/BatInstLoansTaskList.html');" target="centerFrame">核算任务监控</a></span>
+					</li>												
+				</ul>
+			</li>
+	</ul>	
+	<ul class="easyui-tree" data-options="animate:true,lines:true," id="menu_app2">
+			<li>
+				<span>调度配置</span>
+				<ul>
+					<li>
+						<span><a id="a1" onclick="javascript:addTab('定时调度配置','page/smcenter.console/SSrvsCronConfList.html');" target="centerFrame">定时调度配置</a></span>
+					</li>
+				</ul>
+			<li>
+				<span>批次配置</span>
+				<ul>
+					<li>
+						<span><a id="a1" onclick="javascript:addTab('批次配置','page/smcenter.console/BatBatchInfoConfigList.html');" target="centerFrame">批次配置</a></span>
+					</li>
+					<li>
+						<span>批次参数配置</span>
+						<ul>
+							<li>
+								<span><a id="a1" onclick="javascript:addTab('任务阶段信息','page/smcenter.console/BatBatchStageConfigList.html');" target="centerFrame">任务阶段信息</a></span>
+							</li>
+							<li>
+								<span><a id="a1" onclick="javascript:addTab('任务执行场所','page/smcenter.console/BatTaskLocaleConfigList.html');" target="centerFrame">任务执行场所</a></span>
+							</li>							
+						</ul>
+					</li>		
+					<li>
+						<span>批次插件配置</span>
+						<ul>
+							<li>
+								<span><a id="a1" onclick="javascript:addTab('任务插件信息','page/smcenter.console/PluginDefineList.html');" target="centerFrame">任务插件信息</a></span>
+							</li>						
+						</ul>
+					</li>
+				</ul>				
+			</li>
+			<li>
+				<span>节点配置</span>
+				<ul>
+					<li>
+						<span><a id="a1" onclick="javascript:addTab('代理节点配置','page/smcenter.console/SAgentInfoList.html');" target="centerFrame">代理节点配置</a></span>
+					</li>
+				</ul>				
+			</li>			
+	</ul>			
+	<ul class="easyui-tree" data-options="animate:true,lines:true" id="menu_app3">
+			<li>
+				<span>系统设置</span>
+				<ul>
+					<li>
+						<span><a id="a21"  onclick="javascript:addTab('系统基本信息','page/smcenter.console/SSubsInfoList.html');" target="centerFrame">系统基本信息</a></span>
+					</li>
+					<li>
+						<span><a id="a22"  onclick="javascript:addTab('系统数据源信息','page/smcenter.console/SSubsDatasourceList.html');" target="centerFrame">系统数据源信息</a></span>
+					</li>
+					<li>
+						<span><a id="a23"  onclick="javascript:addTab('系统参数信息','page/smcenter.console/SParamInfoList.html');" target="centerFrame">系统参数信息</a></span>
+					</li>										
+					<li>
+						<span><a id="a24"  onclick="javascript:addTab('系统字典信息','page/admin/SDicList.html');" target="centerFrame">系统字典信息</a></span>
+					</li>
+								
+				</ul>
+			</li>							
+		</ul>					
+</div>
+<div data-options="region:'center',title:''" >
+	<div id="tt" class="easyui-tabs" fit="true" border="false">
+		<div title="调度运行监控" style="padding:0px" border="false" fit="true">
+			<iframe id="infoFrame" name="centerFrame" src="page/smcenter.console/ScheduleMontior.html" height="100%" width="100%" frameborder="0" scrolling="auto"></iframe>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script>
+
+	$(function() {
+		//使用javascript初始化
+		$('#menu_app1').hide();
+		$('#menu_app2').hide();
+		$('#menu_app3').hide();
+		showTreeMenuBar("menu_app1");
+		$('#a15').click();
+	});
+</script>

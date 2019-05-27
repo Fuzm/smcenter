@@ -1,0 +1,72 @@
+typedef sequence <octet> block_t;
+
+interface CallBack {
+	long put (
+		in block_t msg
+		);	
+};
+
+interface EasyIDL {
+	long commit (
+		in block_t msg,
+		in CallBack cb
+		);
+		
+	long openFile (
+		in string filename,
+		in long mode
+		);
+		
+	long readFile (
+		in long fd,
+		out block_t buf
+		);
+		
+	long writeFile (
+		in long fd,
+		in block_t buf
+		);
+		
+	long closeFile (
+		in long fd
+		);
+};
+
+interface EasyAppIDL {
+		
+	/* 
+	@roseuid 3FB0912B007D */
+	long openFile (
+		in string filename,
+		in long mode
+		);
+		
+	/* 
+	@roseuid 3FB0912B0091 */
+	long readFile (
+		in long fd,
+		out block_t buf
+		);
+		
+	/* 
+	@roseuid 3FB0912B0087 */
+	long writeFile (
+		in long fd,
+		in block_t buf
+		);
+		
+	/* 
+	@roseuid 3FCAE0E60179 */
+	long closeFile (
+		in long fd
+		);
+		
+	/* 
+	@roseuid 3FD43F9D029A */
+	long commit(
+		in block_t InMsg,
+		out block_t OutMsg
+		);
+		
+};
+

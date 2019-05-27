@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatInstTaskDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatInstTask" id="batInstTaskList">
+		<result property="batchId" column="batch_id"/>
+		<result property="batchOrder" column="batch_order"/>
+		<result property="taskId" column="task_id"/>
+		<result property="taskName" column="task_name"/>
+		<result property="stageId" column="stage_id"/>
+		<result property="taskRunState" column="task_run_state"/>
+		<result property="taskInterveneState" column="task_intervene_state"/>
+		<result property="costTime" column="cost_time"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="warnCount" column="warn_count"/>
+		<result property="other" column="other"/>
+		<result property="batchSerialNo" column="batch_serial_no"/>
+		<result property="stateDesc" column="state_desc"/>
+		<result property="batchDate" column="batch_date"/>
+		<result property="stageName" column="stage_name"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	batch_id,batch_order,task_id,task_name,stage_id,task_run_state,task_intervene_state,cost_time,start_time,end_time,warn_count,other,batch_serial_no,state_desc,batch_date,stage_name
+  </sql>
+  
+  <select id="queryByPk" resultMap="batInstTaskList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstTask">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_inst_task where 
+				batch_id = #{batchId}
+				 and batch_order = #{batchOrder}
+				 and task_id = #{taskId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstTask">
+  		update bat_inst_task 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="taskName!=null and taskName!=''">task_name=#{taskName},</if>
+	<if test="stageId!=null and stageId!=''">stage_id=#{stageId},</if>
+	<if test="taskRunState!=null and taskRunState!=''">task_run_state=#{taskRunState},</if>
+	<if test="taskInterveneState!=null and taskInterveneState!=''">task_intervene_state=#{taskInterveneState},</if>
+	<if test="costTime!=null and costTime!=''">cost_time=#{costTime},</if>
+	<if test="startTime!=null and startTime!=''">start_time=#{startTime},</if>
+	<if test="endTime!=null and endTime!=''">end_time=#{endTime},</if>
+	<if test="warnCount!=null and warnCount!=''">warn_count=#{warnCount},</if>
+	<if test="other!=null and other!=''">other=#{other},</if>
+	<if test="batchSerialNo!=null and batchSerialNo!=''">batch_serial_no=#{batchSerialNo},</if>
+	<if test="stateDesc!=null and stateDesc!=''">state_desc=#{stateDesc},</if>
+	<if test="batchDate!=null and batchDate!=''">batch_date=#{batchDate},</if>
+	<if test="stageName!=null and stageName!=''">stage_name=#{stageName},</if>
+		</trim>
+  		 where 
+				batch_id = #{batchId}
+				 and batch_order = #{batchOrder}
+				 and task_id = #{taskId}
+  </update>
+  
+  <update id="updateTaskInterveneState" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstTask">
+  		update bat_inst_task 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="taskInterveneState!=null and taskInterveneState!=''">task_intervene_state=#{taskInterveneState}</if>
+		</trim>
+  		 where batch_id = #{batchId} and batch_order = #{batchOrder} and task_id = #{taskId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstTask">
+  	delete from bat_inst_task where 
+					batch_id = #{batchId}
+					 and batch_order = #{batchOrder}
+					 and task_id = #{taskId}
+  </delete>
+  	
+  	<insert id="insertBatInstTask" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstTask">
+  		insert into bat_inst_task(
+				batch_id,
+							batch_order,
+							task_id,
+							task_name,
+							stage_id,
+							task_run_state,
+							task_intervene_state,
+							cost_time,
+							start_time,
+							end_time,
+							warn_count,
+							other,
+							batch_serial_no,
+							state_desc,
+							batch_date,
+							stage_name
+			)
+  			values(
+  		#{batchId},
+  		  		#{batchOrder},
+  		  		#{taskId},
+  		  		#{taskName},
+  		  		#{stageId},
+  		  		#{taskRunState},
+  		  		#{taskInterveneState},
+  		  		#{costTime},
+  		  		#{startTime},
+  		  		#{endTime},
+  		  		#{warnCount},
+  		  		#{other},
+  		  		#{batchSerialNo},
+  		  		#{stateDesc},
+  		  		#{batchDate},
+  		  		#{stageName}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllInstTask" resultMap="batInstTaskList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstTaskVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_inst_task WHERE 1=1
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+		 order by task_id
+  	</select>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batInstTaskList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstTaskVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_inst_task WHERE 1=1
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+			<if test="batchOrder!=null and ''!=batchOrder"> AND batch_order=#{batchOrder}</if>
+			<if test="taskId!=null and ''!=taskId"> AND task_id=#{taskId}</if>
+			<if test="taskName!=null and ''!=taskName"> AND task_name=#{taskName}</if>
+			<if test="stageId!=null and ''!=stageId"> AND stage_id=#{stageId}</if>
+			<if test="taskRunState!=null and ''!=taskRunState"> AND task_run_state=#{taskRunState}</if>
+			<if test="taskInterveneState!=null and ''!=taskInterveneState"> AND task_intervene_state=#{taskInterveneState}</if>
+			<if test="costTime!=null and ''!=costTime"> AND cost_time=#{costTime}</if>
+			<if test="startTime!=null and ''!=startTime"> AND start_time=#{startTime}</if>
+			<if test="endTime!=null and ''!=endTime"> AND end_time=#{endTime}</if>
+			<if test="warnCount!=null and ''!=warnCount"> AND warn_count=#{warnCount}</if>
+			<if test="other!=null and ''!=other"> AND other=#{other}</if>
+			<if test="batchSerialNo!=null and ''!=batchSerialNo"> AND batch_serial_no=#{batchSerialNo}</if>
+			<if test="stateDesc!=null and ''!=stateDesc"> AND state_desc=#{stateDesc}</if>
+			<if test="batchDate!=null and ''!=batchDate"> AND batch_date=#{batchDate}</if>
+			<if test="stageName!=null and ''!=stageName"> AND stage_name=#{stageName}</if>
+			<if test="startTimeNotNull!=null and false!=startTimeNotNull"> AND start_time is not null</if>
+			 order by task_id
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batInstTaskList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstTaskVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_inst_task WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batInstTaskList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstTaskVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_inst_task O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

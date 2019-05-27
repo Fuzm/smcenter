@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginJobParamDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginJobParam" id="pluginJobParamList">
+		<result property="paramGroupId" column="param_group_id"/>
+		<result property="jobParamName" column="job_param_name"/>
+		<result property="jobParamValue" column="job_param_value"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	param_group_id,job_param_name,job_param_value
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginJobParamList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobParam">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_job_param where 
+				param_group_id = #{paramGroupId}
+				 and job_param_name = #{jobParamName}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobParam">
+  		update plugin_job_param 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="jobParamValue!=null and jobParamValue!=''">job_param_value=#{jobParamValue},</if>
+		</trim>
+  		 where 
+				param_group_id = #{paramGroupId}
+				 and job_param_name = #{jobParamName}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobParam">
+  	delete from plugin_job_param where 
+					param_group_id = #{paramGroupId}
+					 and job_param_name = #{jobParamName}
+  </delete>
+  	
+  	<insert id="insertPluginJobParam" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobParam">
+  		insert into plugin_job_param(
+				param_group_id,
+							job_param_name,
+							job_param_value
+			)
+  			values(
+  		#{paramGroupId},
+  		  		#{jobParamName},
+  		  		#{jobParamValue}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginJobParamList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobParamVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_job_param WHERE 1=1
+			<if test="paramGroupId!=null and ''!=paramGroupId"> AND param_group_id=#{paramGroupId}</if>
+			<if test="jobParamName!=null and ''!=jobParamName"> AND job_param_name=#{jobParamName}</if>
+			<if test="jobParamValue!=null and ''!=jobParamValue"> AND job_param_value=#{jobParamValue}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginJobParamList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobParamVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_job_param WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginJobParamList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobParamVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_job_param O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

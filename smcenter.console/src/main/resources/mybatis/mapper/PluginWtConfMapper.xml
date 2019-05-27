@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginWtConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginWtConf" id="pluginWtConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="checkInteval" column="check_inteval"/>
+		<result property="maxWaitTime" column="max_wait_time"/>
+		<result property="waitDesc" column="wait_desc"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,check_inteval,max_wait_time,wait_desc
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginWtConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginWtConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_wt_conf where 
+				plugin_conf_id = #{pluginConfId}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginWtConf">
+  		update plugin_wt_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="checkInteval!=null and checkInteval!=''">check_inteval=#{checkInteval},</if>
+	<if test="maxWaitTime!=null and maxWaitTime!=''">max_wait_time=#{maxWaitTime},</if>
+	<if test="waitDesc!=null and waitDesc!=''">wait_desc=#{waitDesc},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginWtConf">
+  	delete from plugin_wt_conf where 
+					plugin_conf_id = #{pluginConfId}
+  </delete>
+  	
+  	<insert id="insertPluginWtConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginWtConf">
+  		insert into plugin_wt_conf(
+				plugin_conf_id,
+							check_inteval,
+							max_wait_time,
+							wait_desc
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{checkInteval},
+  		  		#{maxWaitTime},
+  		  		#{waitDesc}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginWtConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginWtConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_wt_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="checkInteval!=null and ''!=checkInteval"> AND check_inteval=#{checkInteval}</if>
+			<if test="maxWaitTime!=null and ''!=maxWaitTime"> AND max_wait_time=#{maxWaitTime}</if>
+			<if test="waitDesc!=null and ''!=waitDesc"> AND wait_desc=#{waitDesc}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginWtConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginWtConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_wt_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginWtConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginWtConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_wt_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

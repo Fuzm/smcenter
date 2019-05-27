@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>批次任务配置详情</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/css/esaas-easyui-view.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.ext.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<body class="easyui-layout">
+
+	    <form id="ff" method="post">
+	    	<div class="esaas-info-title">批次任务配置信息</div>
+	    	<table class="esaas-info-view-table">
+			<tr>
+				<td width="15%" align="right">任务编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskId" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskName" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">前一任务编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="previousTaskId" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">所属批次：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="batchId" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">阶段编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="stageId" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">执行场所编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="localeId" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">应用插件ID：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="pluginId" data-options="required:true, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">应用插件类型：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="pluginType" name="pluginType"
+					style="width: 100%; height: 25px;"
+					data-options="required:false, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_PLUGIN_TYPE">
+				</select></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">插件配置数据来源方式：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="pluginSourceType" name="pluginSourceType"
+					style="width: 100%; height: 25px;"
+					data-options="required:false, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_PLUGIN_SOURCE_TYPE">
+				</select></td>
+				<td width="15%" align="right">插件配置数据标识：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="pluginParaFlag" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">任务优先级：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskPri" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务执行类型：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="taskRunType" name="taskRunType"
+					style="width: 100%; height: 25px;"
+					data-options="required:false, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_TASK_RUN_TYPE, onSelect: doTaskRunTypeSelect">
+				</select></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right"><span id="cycleIntevalLabel">轮询间隔(秒)：</span></td>
+				<td width="35%"><input class="easyui-textbox" type="text" id="cycleInteval"
+					name="cycleInteval" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right"><span id="maxWaitTimeLabel">最长等待时间：</span></td>
+				<td width="35%"><input class="easyui-textbox" type="text" id="maxWaitTime"
+					name="maxWaitTime" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right"><span id="taskCycleTypeLabel">任务周期类型：</span></td>
+				<td width="35%"><select class="easyui-combobox" 
+					id="taskCycleType" name="taskCycleType"
+					style="width: 100%; height: 25px;"
+					data-options="required:false, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_CYCLE_TYPE">
+				</select></td>
+				<td width="15%" align="right"><span id="taskCronValueLabel">任务定时周期：</span></td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					id="taskCronValue" name="taskCronValue" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">任务延时执行时间(秒)：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskDelayTime" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务最大重复调起次数：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="maxRunCount" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">任务失败跳过策略：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="taskSkipTactic" name="taskSkipTactic"
+					style="width: 100%; height: 25px;"
+					data-options="required:true, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_TASK_SKIP_TACTIC">
+				</select></td>
+				<td width="15%" align="right">任务重复调起时间间隔(秒)：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="againRunSpace" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				
+				<td width="15%" align="right">任务预计执行时间(秒)：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskEstimateTime" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务运行超时时间(秒)：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskTimeoutTime" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				
+			</tr>
+			<tr>
+				<td width="15%" align="right">任务运行超时策略：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="taskTimeoutTactic" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务使用状态：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="taskUseState" name="taskUseState"
+					style="width: 100%; height: 25px;"
+					data-options="required:true, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_TASK_USE_STATE">
+				</select></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">子系统数据源代码：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="subsDsCode" data-options="required:false, disabled: true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">任务使用场景：</td>
+				<td width="35%"><select class="easyui-combobox"
+					id="taskUseArea" name="taskUseArea"
+					style="width: 100%; height: 25px;"
+					data-options="required:true, disabled: true,editable:false,valueField:'enname',textField:'cnname',data:BAT_TASK_USE_AREA">
+				</select></td>
+			</tr>
+			
+			<tr>
+				<td width="15%" align="right">备注：</td>
+				<td width="85%" colspan="3"><input class="easyui-textbox" type="text"
+					name="remark" data-options="required:false, disabled: true, multiline: true"
+					style="width: 100%; height: 50px;"></input></td>
+			</tr>
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:15px">
+			<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeForm()">&nbsp;关&nbsp;闭&nbsp;</a>
+	    </div>
+	</div>
+	<script>	
+		$(function() {
+			var taskId = $.getUrlParam('taskId');
+			$.restfulGet('../../api/bat/task/unit/config/' + taskId,null,function(data){
+					$('#ff').form('load', {
+						taskName : data.rows.taskName,
+						taskId : data.rows.taskId,
+						previousTaskId : data.rows.previousTaskId,
+						batchId : data.rows.batchId,
+						stageId : data.rows.stageId,
+						localeId : data.rows.localeId,
+						pluginId : data.rows.pluginId,
+						pluginSourceType : data.rows.pluginSourceType,
+						pluginParaFlag : data.rows.pluginParaFlag,
+						taskPri : data.rows.taskPri,
+						taskRunType : data.rows.taskRunType,
+						taskCycleType : data.rows.taskCycleType,
+						taskCronValue : data.rows.taskCronValue,
+						taskDelayTime : data.rows.taskDelayTime,
+						taskSkipTactic : data.rows.taskSkipTactic,
+						againRunSpace : data.rows.againRunSpace,
+						taskEstimateTime : data.rows.taskEstimateTime,
+						taskUseState : data.rows.taskUseState,
+						maxRunCount : data.rows.maxRunCount,
+						taskTimeoutTime : data.rows.taskTimeoutTime,
+						taskTimeoutTactic : data.rows.taskTimeoutTactic,
+						subsDsCode : data.rows.subsDsCode,
+						taskUseArea : data.rows.taskUseArea,
+						pluginType : data.rows.pluginType,
+						maxWaitTime : data.rows.maxWaitTime,
+						cycleInteval : data.rows.cycleInteval,
+						remark : data.rows.remark
+					});	
+					
+					doTaskRunTypeSelect({enname: data.rows.taskRunType});
+			});
+		});
+		
+		function doTaskRunTypeSelect(data) {
+			if(data && data.enname == '2') {
+				showCycleInterval(true);
+				showTaskCycle(false);
+			} else if(data && data.enname == '3') {
+				showCycleInterval(false);
+				showTaskCycle(true);
+			} else {
+				showCycleInterval(false);
+				showTaskCycle(false);
+			}
+		}
+		
+		function showCycleInterval(isShow) {
+			if(isShow) {
+				$("#cycleIntevalLabel").show();
+				$("#cycleInteval").textbox("show");
+				$("#maxWaitTimeLabel").show();
+				$("#maxWaitTime").textbox("show");
+			} else {
+				$("#cycleIntevalLabel").hide();
+				$("#cycleInteval").textbox("hide");
+				$("#maxWaitTimeLabel").hide();
+				$("#maxWaitTime").textbox("hide");
+				
+				$("#cycleInteval").textbox('setValue', '');
+				$("#maxWaitTime").textbox("setValue", '');
+			}
+		}
+		
+		function showTaskCycle(isShow) {
+			if(isShow) {
+				$("#taskCycleTypeLabel").show();
+				$("#taskCycleType").textbox("show");
+				$("#taskCronValueLabel").show();
+				$("#taskCronValue").textbox("show");
+			} else {
+				$("#taskCycleTypeLabel").hide();
+				$("#taskCycleType").textbox("hide");
+				$("#taskCronValueLabel").hide();
+				$("#taskCronValue").textbox("hide");
+				
+				$("#taskCycleType").textbox("setValue", '');
+				$("#taskCronValue").textbox("setValue", '');
+			}
+		}
+		
+		function closeForm(){
+			window.parent.JLEUtil.closewin();
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SSubsDatasourceDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SSubsDatasource" id="sSubsDatasourceList">
+		<result property="subsCode" column="subs_code"/>
+		<result property="subsDsCode" column="subs_ds_code"/>
+		<result property="subsDsName" column="subs_ds_name"/>
+		<result property="dsConnStr" column="ds_conn_str"/>
+		<result property="dsUserId" column="ds_user_id"/>
+		<result property="dsUserPwd" column="ds_user_pwd"/>
+		<result property="dsSchemaName" column="ds_schema_name"/>
+		<result property="dsDbName" column="ds_db_name"/>
+		<result property="subsDsType" column="subs_ds_type"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	subs_code,subs_ds_code,subs_ds_name,ds_conn_str,ds_user_id,ds_user_pwd,ds_schema_name,ds_db_name,subs_ds_type
+  </sql>
+  
+  <select id="queryByPk" resultMap="sSubsDatasourceList" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsDatasource">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_subs_datasource where 
+				subs_code = #{subsCode}
+				 and subs_ds_code = #{subsDsCode}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsDatasource">
+  		update s_subs_datasource 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="subsDsName!=null and subsDsName!=''">subs_ds_name=#{subsDsName},</if>
+	<if test="dsConnStr!=null and dsConnStr!=''">ds_conn_str=#{dsConnStr},</if>
+	<if test="dsUserId!=null and dsUserId!=''">ds_user_id=#{dsUserId},</if>
+	<if test="dsUserPwd!=null and dsUserPwd!=''">ds_user_pwd=#{dsUserPwd},</if>
+	<if test="dsSchemaName!=null and dsSchemaName!=''">ds_schema_name=#{dsSchemaName},</if>
+	<if test="dsDbName!=null and dsDbName!=''">ds_db_name=#{dsDbName},</if>
+	<if test="subsDsType!=null and subsDsType!=''">subs_ds_type=#{subsDsType},</if>
+		</trim>
+  		 where 
+				subs_code = #{subsCode}
+				 and subs_ds_code = #{subsDsCode}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsDatasource">
+  	delete from s_subs_datasource where 
+					subs_code = #{subsCode}
+					 and subs_ds_code = #{subsDsCode}
+  </delete>
+  	
+  	<insert id="insertSSubsDatasource" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsDatasource">
+  		insert into s_subs_datasource(
+				subs_code,
+							subs_ds_code,
+							subs_ds_name,
+							ds_conn_str,
+							ds_user_id,
+							ds_user_pwd,
+							ds_schema_name,
+							ds_db_name,
+							subs_ds_type
+			)
+  			values(
+  		#{subsCode},
+  		  		#{subsDsCode},
+  		  		#{subsDsName},
+  		  		#{dsConnStr},
+  		  		#{dsUserId},
+  		  		#{dsUserPwd},
+  		  		#{dsSchemaName},
+  		  		#{dsDbName},
+  		  		#{subsDsType}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sSubsDatasourceList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsDatasourceVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_subs_datasource WHERE 1=1
+			<if test="subsCode!=null and ''!=subsCode"> AND subs_code=#{subsCode}</if>
+			<if test="subsDsCode!=null and ''!=subsDsCode"> AND subs_ds_code=#{subsDsCode}</if>
+			<if test="subsDsName!=null and ''!=subsDsName"> AND subs_ds_name=#{subsDsName}</if>
+			<if test="dsConnStr!=null and ''!=dsConnStr"> AND ds_conn_str=#{dsConnStr}</if>
+			<if test="dsUserId!=null and ''!=dsUserId"> AND ds_user_id=#{dsUserId}</if>
+			<if test="dsUserPwd!=null and ''!=dsUserPwd"> AND ds_user_pwd=#{dsUserPwd}</if>
+			<if test="dsSchemaName!=null and ''!=dsSchemaName"> AND ds_schema_name=#{dsSchemaName}</if>
+			<if test="dsDbName!=null and ''!=dsDbName"> AND ds_db_name=#{dsDbName}</if>
+			<if test="subsDsType!=null and ''!=subsDsType"> AND subs_ds_type=#{subsDsType}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sSubsDatasourceList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsDatasourceVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_subs_datasource WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sSubsDatasourceList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsDatasourceVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_subs_datasource O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

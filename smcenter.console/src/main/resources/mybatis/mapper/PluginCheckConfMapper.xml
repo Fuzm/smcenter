@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginCheckConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginCheckConf" id="pluginCheckConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="checkItemName" column="check_item_name"/>
+		<result property="checkItemSql" column="check_item_sql"/>
+		<result property="checkSucCondition" column="check_suc_condition"/>
+		<result property="checkErrDesc" column="check_err_desc"/>
+		<result property="checkFaildDeal" column="check_faild_deal"/>
+		<result property="validDate" column="valid_date"/>
+		<result property="invalidDate" column="invalid_date"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,check_item_name,check_item_sql,check_suc_condition,check_err_desc,check_faild_deal,valid_date,invalid_date,last_modify_date
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginCheckConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginCheckConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_check_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginCheckConf">
+  		update plugin_check_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="checkItemName!=null and checkItemName!=''">check_item_name=#{checkItemName},</if>
+	<if test="checkItemSql!=null and checkItemSql!=''">check_item_sql=#{checkItemSql},</if>
+	<if test="checkSucCondition!=null and checkSucCondition!=''">check_suc_condition=#{checkSucCondition},</if>
+	<if test="checkErrDesc!=null and checkErrDesc!=''">check_err_desc=#{checkErrDesc},</if>
+	<if test="checkFaildDeal!=null and checkFaildDeal!=''">check_faild_deal=#{checkFaildDeal},</if>
+	<if test="validDate!=null and validDate!=''">valid_date=#{validDate},</if>
+	<if test="invalidDate!=null and invalidDate!=''">invalid_date=#{invalidDate},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginCheckConf">
+  	delete from plugin_check_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginCheckConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginCheckConf">
+  		insert into plugin_check_conf(
+				plugin_conf_id,
+							conf_sort,
+							check_item_name,
+							check_item_sql,
+							check_suc_condition,
+							check_err_desc,
+							check_faild_deal,
+							valid_date,
+							invalid_date,
+							last_modify_date
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{checkItemName},
+  		  		#{checkItemSql},
+  		  		#{checkSucCondition},
+  		  		#{checkErrDesc},
+  		  		#{checkFaildDeal},
+  		  		#{validDate},
+  		  		#{invalidDate},
+  		  		#{lastModifyDate}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginCheckConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginCheckConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_check_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="checkItemName!=null and ''!=checkItemName"> AND check_item_name=#{checkItemName}</if>
+			<if test="checkItemSql!=null and ''!=checkItemSql"> AND check_item_sql=#{checkItemSql}</if>
+			<if test="checkSucCondition!=null and ''!=checkSucCondition"> AND check_suc_condition=#{checkSucCondition}</if>
+			<if test="checkErrDesc!=null and ''!=checkErrDesc"> AND check_err_desc=#{checkErrDesc}</if>
+			<if test="checkFaildDeal!=null and ''!=checkFaildDeal"> AND check_faild_deal=#{checkFaildDeal}</if>
+			<if test="validDate!=null and ''!=validDate"> AND valid_date=#{validDate}</if>
+			<if test="invalidDate!=null and ''!=invalidDate"> AND invalid_date=#{invalidDate}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginCheckConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginCheckConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_check_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginCheckConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginCheckConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_check_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

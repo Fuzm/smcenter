@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>数据装载结果表列表</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<script type="text/javascript">
+
+	function doAdd(){
+		JLEUtil.createModalWin('新增', 'PluginLoadResultAdd.html');
+	}
+	
+	function doUpdate() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			JLEUtil.createModalWin('修改', 'PluginLoadResultUpdate.html?' + 'batchSerialNo=' + row.batchSerialNo + '&tableName=' + row.tableName);
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+	
+	function doDelete(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			$.messager.confirm('删除提示', '你确定要删除这条记录?', function(r){
+				if (r){
+					var jsonData = JSON.parse('{'+'"batchSerialNo":"' + row.batchSerialNo + '"' + ','+'"tableName":"' + row.tableName + '"'+'}');
+					$.restfulDelete('../../api/plugin/load/result', jsonData, function(data) {
+						$.messager.alert('提示','记录删除成功!','info');
+						$('#dg').datagrid('reload');
+					});
+				}
+			});
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}
+
+	function doView(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row) {
+			JLEUtil.createModalWin('详情','PluginLoadResultView.html?' + '&batchSerialNo=' + row.batchSerialNo + '&tableName=' + row.tableName);
+		} else {
+			$.messager.alert('提示','请选择一条记录！','info');
+		}
+	}	
+
+	function reloadList(){
+		$('#dg').datagrid('reload');
+		JLEUtil.closewin();
+	};	
+</script>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',title:''" style="height: 40px; background: #F4F4F4;">
+	<form id="searchForm">
+		<table>
+			<tr>
+				<td>&nbsp;批次流水号：</td>
+				<td><input name="batchSerialNo" id="batchSerialNo"/></td>
+				<td>&nbsp;数据库表名：</td>
+				<td><input name="tableName" id="tableName"/></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.queryForm('searchForm','dg','../../api/plugin/load/results');">查找</a></td>
+				<td><a class="easyui-linkbutton" href="javascript:void(0);" onclick="JLEUtil.clearForm('searchForm');">清空</a></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div data-options="region:'center',split:false">
+<table id="dg" class="easyui-datagrid" title="" style="width:100%;height:100%"
+			data-options="singleSelect:true,collapsible:true,url:'../../api/plugin/load/results',method:'post'"
+			toolbar="#tb"
+		title="Load Data" 
+		rownumbers="true" pagination="true" pageSize="20">
+		<thead>
+			<tr>
+				<th data-options="field:'batchSerialNo',resizable:true" >批次流水号</th>
+				<th data-options="field:'batchDate',resizable:true" >批次日期</th>
+				<th data-options="field:'tableName',resizable:true" >数据库表名</th>
+				<th data-options="field:'tableCnname',resizable:true" >表中文名称</th>
+				<th data-options="field:'tableType',resizable:true" >数据表类型</th>
+				<th data-options="field:'upSysname',resizable:true" >供数系统名称</th>
+				<th data-options="field:'tableLoadMode',resizable:true" formatter="formatter_BAT_TABLE_LOAD_MODE">数据装载方式</th>
+				<th data-options="field:'loadFromFile',resizable:true" >文件路径</th>
+				<th data-options="field:'fileSize',resizable:true" >文件大小</th>
+				<th data-options="field:'startTime',resizable:true" >启动时间</th>
+				<th data-options="field:'endTime',resizable:true" >结束时间</th>
+				<th data-options="field:'costTime',resizable:true" >运行时长</th>
+				<th data-options="field:'readRows',resizable:true" >读入条数</th>
+				<th data-options="field:'loadRows',resizable:true" >装入条数</th>
+				<th data-options="field:'rejectRows',resizable:true" >拒绝条数</th>
+				<th data-options="field:'remark',resizable:true" >备注</th>
+				<th data-options="field:'loadResult',resizable:true" formatter="formatter_BAT_EXEC_RESULT">导数结果</th>
+				<th data-options="field:'batchId',resizable:true" >批次标识</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+<div id="tb" style="padding:1px">
+	<div style="margin-bottom:2px">
+		<a href="javascript:doAdd()" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:doUpdate()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
+		<a href="javascript:doDelete()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
+		<a href="javascript:doView()" class="easyui-linkbutton" iconCls="icon-ok" plain="true">查看</a>
+	</div>
+</div>
+</body>
+</html>

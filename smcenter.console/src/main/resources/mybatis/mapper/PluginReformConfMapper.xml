@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginReformConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginReformConf" id="pluginReformConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="reformTableSchema" column="reform_table_schema"/>
+		<result property="reformTableName" column="reform_table_name"/>
+		<result property="reformGroupId" column="reform_group_id"/>
+		<result property="reformCycleDay" column="reform_cycle_day"/>
+		<result property="lastReformDate" column="last_reform_date"/>
+		<result property="rsvOption" column="rsv_option"/>
+		<result property="validDate" column="valid_date"/>
+		<result property="invalidDate" column="invalid_date"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,reform_table_schema,reform_table_name,reform_group_id,reform_cycle_day,last_reform_date,rsv_option,valid_date,invalid_date,last_modify_date
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginReformConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginReformConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_reform_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginReformConf">
+  		update plugin_reform_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="reformTableSchema!=null and reformTableSchema!=''">reform_table_schema=#{reformTableSchema},</if>
+	<if test="reformTableName!=null and reformTableName!=''">reform_table_name=#{reformTableName},</if>
+	<if test="reformGroupId!=null and reformGroupId!=''">reform_group_id=#{reformGroupId},</if>
+	<if test="reformCycleDay!=null and reformCycleDay!=''">reform_cycle_day=#{reformCycleDay},</if>
+	<if test="lastReformDate!=null and lastReformDate!=''">last_reform_date=#{lastReformDate},</if>
+	<if test="rsvOption!=null and rsvOption!=''">rsv_option=#{rsvOption},</if>
+	<if test="validDate!=null and validDate!=''">valid_date=#{validDate},</if>
+	<if test="invalidDate!=null and invalidDate!=''">invalid_date=#{invalidDate},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginReformConf">
+  	delete from plugin_reform_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginReformConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginReformConf">
+  		insert into plugin_reform_conf(
+				plugin_conf_id,
+							conf_sort,
+							reform_table_schema,
+							reform_table_name,
+							reform_group_id,
+							reform_cycle_day,
+							last_reform_date,
+							rsv_option,
+							valid_date,
+							invalid_date,
+							last_modify_date
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{reformTableSchema},
+  		  		#{reformTableName},
+  		  		#{reformGroupId},
+  		  		#{reformCycleDay},
+  		  		#{lastReformDate},
+  		  		#{rsvOption},
+  		  		#{validDate},
+  		  		#{invalidDate},
+  		  		#{lastModifyDate}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginReformConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginReformConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_reform_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="reformTableSchema!=null and ''!=reformTableSchema"> AND reform_table_schema=#{reformTableSchema}</if>
+			<if test="reformTableName!=null and ''!=reformTableName"> AND reform_table_name=#{reformTableName}</if>
+			<if test="reformGroupId!=null and ''!=reformGroupId"> AND reform_group_id=#{reformGroupId}</if>
+			<if test="reformCycleDay!=null and ''!=reformCycleDay"> AND reform_cycle_day=#{reformCycleDay}</if>
+			<if test="lastReformDate!=null and ''!=lastReformDate"> AND last_reform_date=#{lastReformDate}</if>
+			<if test="rsvOption!=null and ''!=rsvOption"> AND rsv_option=#{rsvOption}</if>
+			<if test="validDate!=null and ''!=validDate"> AND valid_date=#{validDate}</if>
+			<if test="invalidDate!=null and ''!=invalidDate"> AND invalid_date=#{invalidDate}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginReformConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginReformConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_reform_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginReformConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginReformConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_reform_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

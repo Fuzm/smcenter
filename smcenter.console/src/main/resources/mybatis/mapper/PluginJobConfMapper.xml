@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginJobConfDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginJobConf" id="pluginJobConfList">
+		<result property="pluginConfId" column="plugin_conf_id"/>
+		<result property="confSort" column="conf_sort"/>
+		<result property="jobName" column="job_name"/>
+		<result property="sqlPurpose" column="sql_purpose"/>
+		<result property="sqlContent" column="sql_content"/>
+		<result property="paramGroupId" column="param_group_id"/>
+		<result property="jobFaildDeal" column="job_faild_deal"/>
+		<result property="lastModifyDate" column="last_modify_date"/>
+		<result property="jobImplement" column="job_implement"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	plugin_conf_id,conf_sort,job_name,sql_purpose,sql_content,param_group_id,job_faild_deal,last_modify_date,job_implement
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginJobConfList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobConf">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_job_conf where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobConf">
+  		update plugin_job_conf 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="jobName!=null and jobName!=''">job_name=#{jobName},</if>
+	<if test="sqlPurpose!=null and sqlPurpose!=''">sql_purpose=#{sqlPurpose},</if>
+	<if test="sqlContent!=null and sqlContent!=''">sql_content=#{sqlContent},</if>
+	<if test="paramGroupId!=null and paramGroupId!=''">param_group_id=#{paramGroupId},</if>
+	<if test="jobFaildDeal!=null and jobFaildDeal!=''">job_faild_deal=#{jobFaildDeal},</if>
+	<if test="lastModifyDate!=null and lastModifyDate!=''">last_modify_date=#{lastModifyDate},</if>
+	<if test="jobImplement!=null and jobImplement!=''">job_implement=#{jobImplement},</if>
+		</trim>
+  		 where 
+				plugin_conf_id = #{pluginConfId}
+				 and conf_sort = #{confSort}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobConf">
+  	delete from plugin_job_conf where 
+					plugin_conf_id = #{pluginConfId}
+					 and conf_sort = #{confSort}
+  </delete>
+  	
+  	<insert id="insertPluginJobConf" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginJobConf">
+  		insert into plugin_job_conf(
+				plugin_conf_id,
+							conf_sort,
+							job_name,
+							sql_purpose,
+							sql_content,
+							param_group_id,
+							job_faild_deal,
+							last_modify_date,
+							job_implement
+			)
+  			values(
+  		#{pluginConfId},
+  		  		#{confSort},
+  		  		#{jobName},
+  		  		#{sqlPurpose},
+  		  		#{sqlContent},
+  		  		#{paramGroupId},
+  		  		#{jobFaildDeal},
+  		  		#{lastModifyDate},
+  		  		#{jobImplement}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginJobConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_job_conf WHERE 1=1
+			<if test="pluginConfId!=null and ''!=pluginConfId"> AND plugin_conf_id=#{pluginConfId}</if>
+			<if test="confSort!=null and ''!=confSort"> AND conf_sort=#{confSort}</if>
+			<if test="jobName!=null and ''!=jobName"> AND job_name=#{jobName}</if>
+			<if test="sqlPurpose!=null and ''!=sqlPurpose"> AND sql_purpose=#{sqlPurpose}</if>
+			<if test="sqlContent!=null and ''!=sqlContent"> AND sql_content=#{sqlContent}</if>
+			<if test="paramGroupId!=null and ''!=paramGroupId"> AND param_group_id=#{paramGroupId}</if>
+			<if test="jobFaildDeal!=null and ''!=jobFaildDeal"> AND job_faild_deal=#{jobFaildDeal}</if>
+			<if test="lastModifyDate!=null and ''!=lastModifyDate"> AND last_modify_date=#{lastModifyDate}</if>
+			<if test="jobImplement!=null and ''!=jobImplement"> AND job_implement=#{jobImplement}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginJobConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_job_conf WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginJobConfList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginJobConfVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_job_conf O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.ssm.admin.dao.SDicDao">
+
+	<resultMap type="com.irdstudio.ssm.admin.dao.domain.SDic" id="sDicList">
+		<result property="enname" column="enname" />
+		<result property="cnname" column="cnname" />
+		<result property="opttype" column="opttype" />
+		<result property="memo" column="memo" />
+		<result property="flag" column="flag" />
+		<result property="levels" column="levels" />
+		<result property="orderid" column="orderid" />
+		<result property="modifyDate" column="modify_date" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		enname,cnname,opttype,memo,flag,levels,orderid,modify_date
+	</sql>
+
+	<select id="queryByPk" resultMap="sDicList"
+		parameterType="com.irdstudio.ssm.admin.dao.domain.SDic">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM s_dic_daybat where
+		enname = #{enname}
+		and opttype = #{opttype}
+	</select>
+
+	<update id="updateByPk" parameterType="com.irdstudio.ssm.admin.dao.domain.SDic">
+		update s_dic_daybat
+		<trim prefix="set" suffixOverrides=",">
+			<if test="cnname!=null and cnname!=''">cnname=#{cnname},</if>
+			<if test="memo!=null and memo!=''">memo=#{memo},</if>
+			<if test="flag!=null and flag!=''">flag=#{flag},</if>
+			<if test="levels!=null and levels!=''">levels=#{levels},</if>
+			<if test="orderid!=null and orderid!=''">orderid=#{orderid},</if>
+			<if test="modifyDate!=null and modifyDate!=''">modify_date=#{modifyDate},</if>
+		</trim>
+		where
+		enname = #{enname}
+		and opttype = #{opttype}
+	</update>
+
+	<delete id="deleteByPk" parameterType="com.irdstudio.ssm.admin.dao.domain.SDic">
+		delete from s_dic_daybat where
+		enname = #{enname}
+		and opttype = #{opttype}
+	</delete>
+
+	<insert id="insertSDic" parameterType="com.irdstudio.ssm.admin.dao.domain.SDic">
+		insert into s_dic_daybat(
+		enname,
+		cnname,
+		opttype,
+		memo,
+		flag,
+		levels,
+		orderid,
+		modify_date
+		)
+		values(
+		#{enname},
+		#{cnname},
+		#{opttype},
+		#{memo},
+		#{flag},
+		#{levels},
+		#{orderid},
+		#{modifyDate}
+		)
+	</insert>
+
+	<select id="queryAllOwnerByPage" resultMap="sDicList"
+		parameterType="com.irdstudio.ssm.admin.service.vo.SDicVO">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM s_dic_daybat where 1=1
+			<if test="enname!=null and ''!=enname"> AND enname=#{enname}</if>
+			<if test="cnname!=null and ''!=cnname"> AND cnname=#{cnname}</if>
+			<if test="opttype!=null and ''!=opttype"> AND opttype=#{opttype}</if>
+			<if test="memo!=null and ''!=memo"> AND memo=#{memo}</if>
+			<if test="flag!=null and ''!=flag"> AND flag=#{flag}</if>
+			<if test="levels!=null and ''!=levels"> AND levels=#{levels}</if>
+			<if test="orderid!=null and ''!=orderid"> AND orderid=#{orderid}</if>
+			<if test="modifyDate!=null and ''!=modifyDate"> AND modify_date=#{modifyDate}</if>		
+	</select>
+	
+	<select id="queryAllDict" resultMap="sDicList">
+		select distinct(opttype) as opttype from s_dic_daybat
+	</select>
+
+	<select id="queryDictOption" resultMap="sDicList"
+		parameterType="string">
+		select * from s_dic_daybat where opttype=#{opttype}
+	</select>	
+
+	<select id="queryAllCurrOrgByPage" resultMap="sDicList"
+		parameterType="com.irdstudio.ssm.admin.service.vo.SDicVO">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM s_dic_daybat
+	</select>
+
+	<select id="queryAllCurrDownOrgByPage" resultMap="sDicList"
+		parameterType="com.irdstudio.ssm.admin.service.vo.SDicVO">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM s_dic_daybat
+	</select>
+
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.BatInstBatchHDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.BatInstBatchH" id="batInstBatchHList">
+		<result property="batchId" column="batch_id"/>
+		<result property="batchOrder" column="batch_order"/>
+		<result property="batchName" column="batch_name"/>
+		<result property="subsCode" column="subs_code"/>
+		<result property="batchState" column="batch_state"/>
+		<result property="batchInterveneState" column="batch_intervene_state"/>
+		<result property="stageId" column="stage_id"/>
+		<result property="stageName" column="stage_name"/>
+		<result property="batchDate" column="batch_date"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="costTime" column="cost_time"/>
+		<result property="needRunCount" column="need_run_count"/>
+		<result property="existRunCount" column="exist_run_count"/>
+		<result property="notRunCount" column="not_run_count"/>
+		<result property="succeedRunCount" column="succeed_run_count"/>
+		<result property="faildRunCount" column="faild_run_count"/>
+		<result property="warnRunCount" column="warn_run_count"/>
+		<result property="skipRunCount" column="skip_run_count"/>
+		<result property="batchSerialNo" column="batch_serial_no"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	batch_id,batch_order,batch_name,subs_code,batch_state,batch_intervene_state,stage_id,stage_name,batch_date,start_time,end_time,cost_time,need_run_count,exist_run_count,not_run_count,succeed_run_count,faild_run_count,warn_run_count,skip_run_count,batch_serial_no,remark
+  </sql>
+  
+  <select id="queryByPk" resultMap="batInstBatchHList" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstBatchH">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM bat_inst_batch_h where 
+				batch_serial_no = #{batchSerialNo}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstBatchH">
+  		update bat_inst_batch_h 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="batchId!=null and batchId!=''">batch_id=#{batchId},</if>
+	<if test="batchOrder!=null and batchOrder!=''">batch_order=#{batchOrder},</if>
+	<if test="batchName!=null and batchName!=''">batch_name=#{batchName},</if>
+	<if test="subsCode!=null and subsCode!=''">subs_code=#{subsCode},</if>
+	<if test="batchState!=null and batchState!=''">batch_state=#{batchState},</if>
+	<if test="batchInterveneState!=null and batchInterveneState!=''">batch_intervene_state=#{batchInterveneState},</if>
+	<if test="stageId!=null and stageId!=''">stage_id=#{stageId},</if>
+	<if test="stageName!=null and stageName!=''">stage_name=#{stageName},</if>
+	<if test="batchDate!=null and batchDate!=''">batch_date=#{batchDate},</if>
+	<if test="startTime!=null and startTime!=''">start_time=#{startTime},</if>
+	<if test="endTime!=null and endTime!=''">end_time=#{endTime},</if>
+	<if test="costTime!=null and costTime!=''">cost_time=#{costTime},</if>
+	<if test="needRunCount!=null and needRunCount!=''">need_run_count=#{needRunCount},</if>
+	<if test="existRunCount!=null and existRunCount!=''">exist_run_count=#{existRunCount},</if>
+	<if test="notRunCount!=null and notRunCount!=''">not_run_count=#{notRunCount},</if>
+	<if test="succeedRunCount!=null and succeedRunCount!=''">succeed_run_count=#{succeedRunCount},</if>
+	<if test="faildRunCount!=null and faildRunCount!=''">faild_run_count=#{faildRunCount},</if>
+	<if test="warnRunCount!=null and warnRunCount!=''">warn_run_count=#{warnRunCount},</if>
+	<if test="skipRunCount!=null and skipRunCount!=''">skip_run_count=#{skipRunCount},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+		</trim>
+  		 where 
+				batch_serial_no = #{batchSerialNo}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstBatchH">
+  	delete from bat_inst_batch_h where 
+					batch_serial_no = #{batchSerialNo}
+  </delete>
+  	
+  	<insert id="insertBatInstBatchH" parameterType="com.irdstudio.smcenter.console.dao.domain.BatInstBatchH">
+  		insert into bat_inst_batch_h(
+				batch_id,
+							batch_order,
+							batch_name,
+							subs_code,
+							batch_state,
+							batch_intervene_state,
+							stage_id,
+							stage_name,
+							batch_date,
+							start_time,
+							end_time,
+							cost_time,
+							need_run_count,
+							exist_run_count,
+							not_run_count,
+							succeed_run_count,
+							faild_run_count,
+							warn_run_count,
+							skip_run_count,
+							batch_serial_no,
+							remark
+			)
+  			values(
+  		#{batchId},
+  		  		#{batchOrder},
+  		  		#{batchName},
+  		  		#{subsCode},
+  		  		#{batchState},
+  		  		#{batchInterveneState},
+  		  		#{stageId},
+  		  		#{stageName},
+  		  		#{batchDate},
+  		  		#{startTime},
+  		  		#{endTime},
+  		  		#{costTime},
+  		  		#{needRunCount},
+  		  		#{existRunCount},
+  		  		#{notRunCount},
+  		  		#{succeedRunCount},
+  		  		#{faildRunCount},
+  		  		#{warnRunCount},
+  		  		#{skipRunCount},
+  		  		#{batchSerialNo},
+  		  		#{remark}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="batInstBatchHList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstBatchHVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_inst_batch_h WHERE 1=1
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+			<if test="batchOrder!=null and ''!=batchOrder"> AND batch_order=#{batchOrder}</if>
+			<if test="batchName!=null and ''!=batchName"> AND batch_name=#{batchName}</if>
+			<if test="subsCode!=null and ''!=subsCode"> AND subs_code=#{subsCode}</if>
+			<if test="batchState!=null and ''!=batchState"> AND batch_state=#{batchState}</if>
+			<if test="batchInterveneState!=null and ''!=batchInterveneState"> AND batch_intervene_state=#{batchInterveneState}</if>
+			<if test="stageId!=null and ''!=stageId"> AND stage_id=#{stageId}</if>
+			<if test="stageName!=null and ''!=stageName"> AND stage_name=#{stageName}</if>
+			<if test="batchDate!=null and ''!=batchDate"> AND batch_date=#{batchDate}</if>
+			<if test="startTime!=null and ''!=startTime"> AND start_time=#{startTime}</if>
+			<if test="endTime!=null and ''!=endTime"> AND end_time=#{endTime}</if>
+			<if test="costTime!=null and ''!=costTime"> AND cost_time=#{costTime}</if>
+			<if test="needRunCount!=null and ''!=needRunCount"> AND need_run_count=#{needRunCount}</if>
+			<if test="existRunCount!=null and ''!=existRunCount"> AND exist_run_count=#{existRunCount}</if>
+			<if test="notRunCount!=null and ''!=notRunCount"> AND not_run_count=#{notRunCount}</if>
+			<if test="succeedRunCount!=null and ''!=succeedRunCount"> AND succeed_run_count=#{succeedRunCount}</if>
+			<if test="faildRunCount!=null and ''!=faildRunCount"> AND faild_run_count=#{faildRunCount}</if>
+			<if test="warnRunCount!=null and ''!=warnRunCount"> AND warn_run_count=#{warnRunCount}</if>
+			<if test="skipRunCount!=null and ''!=skipRunCount"> AND skip_run_count=#{skipRunCount}</if>
+			<if test="batchSerialNo!=null and ''!=batchSerialNo"> AND batch_serial_no=#{batchSerialNo}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="batInstBatchHList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstBatchHVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM bat_inst_batch_h WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="batInstBatchHList"  parameterType="com.irdstudio.smcenter.console.service.vo.BatInstBatchHVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM bat_inst_batch_h O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

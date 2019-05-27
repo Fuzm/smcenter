@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.PluginLoadResultDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.PluginLoadResult" id="pluginLoadResultList">
+		<result property="batchSerialNo" column="batch_serial_no"/>
+		<result property="batchDate" column="batch_date"/>
+		<result property="tableName" column="table_name"/>
+		<result property="tableCnname" column="table_cnname"/>
+		<result property="tableType" column="table_type"/>
+		<result property="upSysname" column="up_sysname"/>
+		<result property="tableLoadMode" column="table_load_mode"/>
+		<result property="loadFromFile" column="load_from_file"/>
+		<result property="fileSize" column="file_size"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="costTime" column="cost_time"/>
+		<result property="readRows" column="read_rows"/>
+		<result property="loadRows" column="load_rows"/>
+		<result property="rejectRows" column="reject_rows"/>
+		<result property="remark" column="remark"/>
+		<result property="loadResult" column="load_result"/>
+		<result property="batchId" column="batch_id"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	batch_serial_no,batch_date,table_name,table_cnname,table_type,up_sysname,table_load_mode,load_from_file,file_size,start_time,end_time,cost_time,read_rows,load_rows,reject_rows,remark,load_result,batch_id
+  </sql>
+  
+  <select id="queryByPk" resultMap="pluginLoadResultList" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadResult">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM plugin_load_result where 
+				batch_serial_no = #{batchSerialNo}
+				 and table_name = #{tableName}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadResult">
+  		update plugin_load_result 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="batchDate!=null and batchDate!=''">batch_date=#{batchDate},</if>
+	<if test="tableCnname!=null and tableCnname!=''">table_cnname=#{tableCnname},</if>
+	<if test="tableType!=null and tableType!=''">table_type=#{tableType},</if>
+	<if test="upSysname!=null and upSysname!=''">up_sysname=#{upSysname},</if>
+	<if test="tableLoadMode!=null and tableLoadMode!=''">table_load_mode=#{tableLoadMode},</if>
+	<if test="loadFromFile!=null and loadFromFile!=''">load_from_file=#{loadFromFile},</if>
+	<if test="fileSize!=null and fileSize!=''">file_size=#{fileSize},</if>
+	<if test="startTime!=null and startTime!=''">start_time=#{startTime},</if>
+	<if test="endTime!=null and endTime!=''">end_time=#{endTime},</if>
+	<if test="costTime!=null and costTime!=''">cost_time=#{costTime},</if>
+	<if test="readRows!=null and readRows!=''">read_rows=#{readRows},</if>
+	<if test="loadRows!=null and loadRows!=''">load_rows=#{loadRows},</if>
+	<if test="rejectRows!=null and rejectRows!=''">reject_rows=#{rejectRows},</if>
+	<if test="remark!=null and remark!=''">remark=#{remark},</if>
+	<if test="loadResult!=null and loadResult!=''">load_result=#{loadResult},</if>
+	<if test="batchId!=null and batchId!=''">batch_id=#{batchId},</if>
+		</trim>
+  		 where 
+				batch_serial_no = #{batchSerialNo}
+				 and table_name = #{tableName}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadResult">
+  	delete from plugin_load_result where 
+					batch_serial_no = #{batchSerialNo}
+					 and table_name = #{tableName}
+  </delete>
+  	
+  	<insert id="insertPluginLoadResult" parameterType="com.irdstudio.smcenter.console.dao.domain.PluginLoadResult">
+  		insert into plugin_load_result(
+				batch_serial_no,
+							batch_date,
+							table_name,
+							table_cnname,
+							table_type,
+							up_sysname,
+							table_load_mode,
+							load_from_file,
+							file_size,
+							start_time,
+							end_time,
+							cost_time,
+							read_rows,
+							load_rows,
+							reject_rows,
+							remark,
+							load_result,
+							batch_id
+			)
+  			values(
+  		#{batchSerialNo},
+  		  		#{batchDate},
+  		  		#{tableName},
+  		  		#{tableCnname},
+  		  		#{tableType},
+  		  		#{upSysname},
+  		  		#{tableLoadMode},
+  		  		#{loadFromFile},
+  		  		#{fileSize},
+  		  		#{startTime},
+  		  		#{endTime},
+  		  		#{costTime},
+  		  		#{readRows},
+  		  		#{loadRows},
+  		  		#{rejectRows},
+  		  		#{remark},
+  		  		#{loadResult},
+  		  		#{batchId}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="pluginLoadResultList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadResultVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_load_result WHERE 1=1
+			<if test="batchSerialNo!=null and ''!=batchSerialNo"> AND batch_serial_no=#{batchSerialNo}</if>
+			<if test="batchDate!=null and ''!=batchDate"> AND batch_date=#{batchDate}</if>
+			<if test="tableName!=null and ''!=tableName"> AND table_name=#{tableName}</if>
+			<if test="tableCnname!=null and ''!=tableCnname"> AND table_cnname=#{tableCnname}</if>
+			<if test="tableType!=null and ''!=tableType"> AND table_type=#{tableType}</if>
+			<if test="upSysname!=null and ''!=upSysname"> AND up_sysname=#{upSysname}</if>
+			<if test="tableLoadMode!=null and ''!=tableLoadMode"> AND table_load_mode=#{tableLoadMode}</if>
+			<if test="loadFromFile!=null and ''!=loadFromFile"> AND load_from_file=#{loadFromFile}</if>
+			<if test="fileSize!=null and ''!=fileSize"> AND file_size=#{fileSize}</if>
+			<if test="startTime!=null and ''!=startTime"> AND start_time=#{startTime}</if>
+			<if test="endTime!=null and ''!=endTime"> AND end_time=#{endTime}</if>
+			<if test="costTime!=null and ''!=costTime"> AND cost_time=#{costTime}</if>
+			<if test="readRows!=null and ''!=readRows"> AND read_rows=#{readRows}</if>
+			<if test="loadRows!=null and ''!=loadRows"> AND load_rows=#{loadRows}</if>
+			<if test="rejectRows!=null and ''!=rejectRows"> AND reject_rows=#{rejectRows}</if>
+			<if test="remark!=null and ''!=remark"> AND remark=#{remark}</if>
+			<if test="loadResult!=null and ''!=loadResult"> AND load_result=#{loadResult}</if>
+			<if test="batchId!=null and ''!=batchId"> AND batch_id=#{batchId}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="pluginLoadResultList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadResultVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM plugin_load_result WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="pluginLoadResultList"  parameterType="com.irdstudio.smcenter.console.service.vo.PluginLoadResultVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM plugin_load_result O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

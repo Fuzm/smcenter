@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.smcenter.console.dao.SSubsInfoDao">
+
+	<resultMap type="com.irdstudio.smcenter.console.dao.domain.SSubsInfo" id="sSubsInfoList">
+		<result property="subsCode" column="subs_code"/>
+		<result property="subsName" column="subs_name"/>
+		<result property="subsDataDate" column="subs_data_date"/>
+		<result property="subsLastDataDate" column="subs_last_data_date"/>
+		<result property="subsLoadDate" column="subs_load_date"/>
+		<result property="subsBatDate" column="subs_bat_date"/>
+		<result property="batchIdPrefix" column="batch_id_prefix"/>
+		<result property="rsvDate" column="rsv_date"/>
+		<result property="rsvState" column="rsv_state"/>
+	</resultMap>
+  
+  <sql id="Base_Column_List">
+  	subs_code,subs_name,subs_data_date,subs_last_data_date,subs_load_date,subs_bat_date,batch_id_prefix,rsv_date,rsv_state
+  </sql>
+  
+  <select id="queryByPk" resultMap="sSubsInfoList" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsInfo">
+		SELECT 
+			<include refid="Base_Column_List"/>
+		 FROM s_subs_info where 
+				subs_code = #{subsCode}
+	</select>
+  
+  <update id="updateByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsInfo">
+  		update s_subs_info 
+		<trim prefix="set" suffixOverrides=",">
+	<if test="subsName!=null and subsName!=''">subs_name=#{subsName},</if>
+	<if test="subsDataDate!=null and subsDataDate!=''">subs_data_date=#{subsDataDate},</if>
+	<if test="subsLastDataDate!=null and subsLastDataDate!=''">subs_last_data_date=#{subsLastDataDate},</if>
+	<if test="subsLoadDate!=null and subsLoadDate!=''">subs_load_date=#{subsLoadDate},</if>
+	<if test="subsBatDate!=null and subsBatDate!=''">subs_bat_date=#{subsBatDate},</if>
+	<if test="batchIdPrefix!=null and batchIdPrefix!=''">batch_id_prefix=#{batchIdPrefix},</if>
+	<if test="rsvDate!=null and rsvDate!=''">rsv_date=#{rsvDate},</if>
+	<if test="rsvState!=null and rsvState!=''">rsv_state=#{rsvState},</if>
+		</trim>
+  		 where 
+				subs_code = #{subsCode}
+  </update>
+  
+  <delete id="deleteByPk" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsInfo">
+  	delete from s_subs_info where 
+					subs_code = #{subsCode}
+  </delete>
+  	
+  	<insert id="insertSSubsInfo" parameterType="com.irdstudio.smcenter.console.dao.domain.SSubsInfo">
+  		insert into s_subs_info(
+				subs_code,
+							subs_name,
+							subs_data_date,
+							subs_last_data_date,
+							subs_load_date,
+							subs_bat_date,
+							batch_id_prefix,
+							rsv_date,
+							rsv_state
+			)
+  			values(
+  		#{subsCode},
+  		  		#{subsName},
+  		  		#{subsDataDate},
+  		  		#{subsLastDataDate},
+  		  		#{subsLoadDate},
+  		  		#{subsBatDate},
+  		  		#{batchIdPrefix},
+  		  		#{rsvDate},
+  		  		#{rsvState}
+  		)
+  	</insert>
+  	
+  	<select id="queryAllOwnerByPage" resultMap="sSubsInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_subs_info WHERE 1=1
+			<if test="subsCode!=null and ''!=subsCode"> AND subs_code=#{subsCode}</if>
+			<if test="subsName!=null and ''!=subsName"> AND subs_name=#{subsName}</if>
+			<if test="subsDataDate!=null and ''!=subsDataDate"> AND subs_data_date=#{subsDataDate}</if>
+			<if test="subsLastDataDate!=null and ''!=subsLastDataDate"> AND subs_last_data_date=#{subsLastDataDate}</if>
+			<if test="subsLoadDate!=null and ''!=subsLoadDate"> AND subs_load_date=#{subsLoadDate}</if>
+			<if test="subsBatDate!=null and ''!=subsBatDate"> AND subs_bat_date=#{subsBatDate}</if>
+			<if test="batchIdPrefix!=null and ''!=batchIdPrefix"> AND batch_id_prefix=#{batchIdPrefix}</if>
+			<if test="rsvDate!=null and ''!=rsvDate"> AND rsv_date=#{rsvDate}</if>
+			<if test="rsvState!=null and ''!=rsvState"> AND rsv_state=#{rsvState}</if>
+  	</select>
+  	
+  	<select id="queryAllCurrOrgByPage" resultMap="sSubsInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  	 FROM s_subs_info WHERE INPUT_BR_ID = #{loginUserOrgCode}
+  	</select>
+  
+  	<select id="queryAllCurrDownOrgByPage" resultMap="sSubsInfoList"  parameterType="com.irdstudio.smcenter.console.service.vo.SSubsInfoVO">
+	  	SELECT 
+	  	<include refid="Base_Column_List"/>
+	  		FROM s_subs_info O WHERE EXISTS (SELECT 1 FROM s_org S WHERE S.LOCATION Like '%${loginUserOrgLocation}%' AND S.ORG_CODE = O.INPUT_BR_ID)
+  	</select>
+  
+</mapper>

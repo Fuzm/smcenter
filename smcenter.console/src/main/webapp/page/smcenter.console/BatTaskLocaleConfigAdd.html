@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>执行场所配置新增</title>
+<link href="../../static/plugin/easyui/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/plugin/easyui/themes/icon.css" rel="stylesheet" type="text/css"/>
+<link href="../../static/css/esaas-easyui-add.css" rel="stylesheet" type="text/css"/>
+<script src="../../static/plugin/easyui/jquery.min.js" type="text/javascript"></script>
+<script src="../../static/plugin/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/plugin/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.util.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.jquery.ajax.js" type="text/javascript"></script>
+<script src="../../static/plugin/assets/jslib.easyui.util.js" type="text/javascript"></script>
+<script src="../../ffres/dict/all.js" type="text/javascript"></script>
+<a href="" target="_blank" id="commonLink" name="commonLink"></a>
+</head>
+<body class="easyui-layout">
+	<form id="ff" method="post">
+		<div class="esaas-info-title">执行场所配置信息</div>
+		<table class="esaas-info-add-table">
+			<tr>
+				<td width="15%" align="right">执行场所编号：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="localeId" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">执行场所名称：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="localeName" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">场所类型：</td>
+				<td width="35%"><select class="easyui-combobox" name="localeType"
+					style="width: 100%; height: 25px;"
+					data-options="required:true,editable:false,valueField:'enname',textField:'cnname',data:BAT_LOCALE_TYPE">
+				</select></td>
+				<td width="15%" align="right">场所IP：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="localeIp" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">场所端口：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="localePort" data-options="required:false"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">登录方式：</td>
+				<td width="35%"><select class="easyui-combobox" name="loginType"
+					style="width: 100%; height: 25px;"
+					data-options="required:true,editable:false,valueField:'enname',textField:'cnname',data:BAT_LOGIN_TYPE">
+				</select></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">登录用户名：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="loginUser" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+				<td width="15%" align="right">登录密码：</td>
+				<td width="35%"><input class="easyui-textbox" type="text"
+					name="loginPwd" data-options="required:true"
+					style="width: 100%; height: 25px;"></input></td>
+			</tr>
+			<tr>
+				<td width="15%" align="right">备注：</td>
+				<td width="90%" colspan="3"><input class="easyui-textbox" type="text"
+					name="remark" data-options="required:false, multiline: true"
+					style="width: 100%; height: 80px;"></input></td>
+			</tr>
+		</table>
+	</form>
+	<div style="text-align: center; padding: 15px">
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="submitForm()">&nbsp;保&nbsp;存&nbsp;</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			onclick="closeForm()">&nbsp;关&nbsp;闭&nbsp;</a>
+	</div>
+	<script>
+		$(function() {
+
+		});
+
+		function submitForm() {
+			if (!$('#ff').form('validate'))
+				return;
+			var jsonData = $("#ff").serializeJson();
+			$.restfulPostJson('../../api/bat/task/locale/config', jsonData, function(data) {
+				window.parent.reloadList();
+			});
+		};
+		
+		function closeForm() {
+			window.parent.JLEUtil.closewin();
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.irdstudio.smcenter</groupId>
+		<artifactId>smcenter</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>smcenter.agent</artifactId>
+	<name>smcenter.agent</name>
+	<packaging>jar</packaging>
+
+	<!-- <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+		<version>1.5.8.RELEASE</version> <relativePath /> </parent> -->
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<smagent.version>0.0.1-SNAPSHOT</smagent.version>
+		<spring.version>4.3.13.RELEASE</spring.version>
+		<spring-cloud.version>Dalston.SR4</spring-cloud.version>
+		<jdk.version>1.8</jdk.version>
+		<downloadSources>false</downloadSources>
+		<log4j.version>1.2.17</log4j.version>
+		<logback.version>1.1.7</logback.version>
+		<logback-ext-spring.version>0.1.2</logback-ext-spring.version>
+		<slf4j-api.version>1.7.1</slf4j-api.version>
+
+		<framework.version>0.0.1-SNAPSHOT</framework.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot</artifactId>
+				<version>1.5.8.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- hsf start -->
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-hsf</artifactId> 
+			<version>1.1</version> </dependency> <dependency> <groupId>org.springframework.cloud</groupId> 
+			<artifactId>spring-cloud-starter-pandora</artifactId> <version>1.2</version> 
+			</dependency> -->
+		<!-- hsf end -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.25</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>jconsole</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.alibaba.hsf</groupId> <artifactId>LightApi</artifactId> 
+			<version>1.0.0</version> </dependency> -->
+
+		<!-- <dependency> <groupId>com.alibaba.edas</groupId> <artifactId>edas-sdk</artifactId> 
+			<version>1.5.4</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<!-- <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Oracle数据库驱动 -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> 
+			<version>11.2.0.3</version> </dependency> -->
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.alibaba</groupId> <artifactId>dubbo</artifactId> 
+			<version>2.5.3</version> dubbo依赖的spring2.5.6与springboot的spring-core-4.3冲突 
+			add by gaoyp 20180112 <exclusions> <exclusion> <artifactId>spring</artifactId> 
+			<groupId>org.springframework</groupId> </exclusion> </exclusions> </dependency> 
+			<dependency> <artifactId>zookeeper</artifactId> <groupId>org.apache.zookeeper</groupId> 
+			<version>3.4.6</version> </dependency> <dependency> <groupId>com.github.sgroschupf</groupId> 
+			<artifactId>zkclient</artifactId> <version>0.1</version> <exclusions> <exclusion> 
+			<artifactId>zookeeper</artifactId> <groupId>org.apache.zookeeper</groupId> 
+			</exclusion> </exclusions> </dependency> -->
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<logback.dir>D:/Cache/logs</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.89/orcldev</database.url>
+				<database.username>ncmis</database.username>
+				<database.password>ncmis</database.password>
+				<dubbo.registry.address>10.140.97.178:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.82</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>cyl</sftp.user>
+				<sftp.pwd>cyl1234</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.101.50:20881</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.5.3</ycloans.dubbo.version>
+				<dubbo.runModel>local</dubbo.runModel>
+				<tmp.fnc.file.path>/home/cyl/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/home/cyl/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>sit</id>
+			<properties>
+				<logback.dir>/home/weblogic/logs/smcenter</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.89/orclsit</database.url>
+				<database.username>ncmis</database.username>
+				<database.password>ncmis</database.password>
+				<dubbo.registry.address>10.140.97.80:2181,10.140.97.82:2181,10.140.97.83:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.82</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>cyl</sftp.user>
+				<sftp.pwd>cyl1234</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.97.83:20880</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.0.0</ycloans.dubbo.version>
+				<tmp.fnc.file.path>/home/cyl/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/home/cyl/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>uat</id>
+			<properties>
+				<logback.dir>/home/weblogic/logs/smcenter</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.133:1521/icfdb</database.url>
+				<database.username>ncmisuat</database.username>
+				<database.password>ncmis@123</database.password>
+				<dubbo.registry.address>10.140.97.191:2181,10.140.97.192:2181,10.140.97.193:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.195</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>cyl</sftp.user>
+				<sftp.pwd>cyl1234</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.97.196:20880</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.0.0</ycloans.dubbo.version>
+				<tmp.fnc.file.path>/data/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/data/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>uat-81</id>
+			<properties>
+				<logback.dir>/home/weblogic/logs/smcenter</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.5:1521/icfdb</database.url>
+				<database.username>ncmisrac</database.username>
+				<database.password>ncmis_123</database.password>
+				<dubbo.registry.address>10.140.97.80:2181,10.140.97.82:2181,10.140.97.83:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.82</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>cyl</sftp.user>
+				<sftp.pwd>cyl1234</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.97.83:20880</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.0.0</ycloans.dubbo.version>
+				<tmp.fnc.file.path>/data/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/data/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>pre</id>
+			<properties>
+				<logback.dir>/home/weblogic/logs/smcenter</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.5:1521/icfdb</database.url>
+				<database.username>ncmisprd</database.username>
+				<database.password>ncmisprd</database.password>
+				<dubbo.registry.address>10.140.97.211:2181,10.140.97.212:2181,10.140.97.213:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.215</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>icfsftp</sftp.user>
+				<sftp.pwd>icf@123</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.97.215:20880</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.0.0</ycloans.dubbo.version>
+				<tmp.fnc.file.path>/data/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/data/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>qy</id>
+			<properties>
+				<logback.dir>/home/weblogic/logs/smcenter</logback.dir>
+				<logback.root.level>DEBUG</logback.root.level>
+				<database.url>jdbc:oracle:thin:@10.140.97.5:1521/icfdb</database.url>
+				<database.username>ncmisqyn</database.username>
+				<database.password>ncmisqyn</database.password>
+				<dubbo.registry.address>10.140.97.221:2181,10.140.97.222:2181,10.140.97.223:2181</dubbo.registry.address>
+				<sftp.ip>10.140.97.225</sftp.ip>
+				<sftp.port>22</sftp.port>
+				<sftp.user>icfsftp</sftp.user>
+				<sftp.pwd>icf@123</sftp.pwd>
+				<ycloans.dubbo.url>dubbo://10.140.97.225:20880</ycloans.dubbo.url>
+				<ycloans.dubbo.version>1.0.0</ycloans.dubbo.version>
+				<tmp.fnc.file.path>/data/ncmisweb/template/psp/PspFncTemplet.xls</tmp.fnc.file.path>
+				<tmp.erp.file.path>/data/ncmisweb/template/psp/PspStuffInfoList.xls</tmp.erp.file.path>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.1.0.RELEASE</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<!-- 支持hsf -->
+		<!-- <plugins> <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+			</plugin> -->
+		<!-- <plugin> <groupId>com.taobao.pandora</groupId> <artifactId>pandora-boot-maven-plugin</artifactId> 
+			<version>2.1.7.8</version> 不排除pandora容器 <configuration> <excludeSar>false</excludeSar> 
+			</configuration> <executions> <execution> <phase>package</phase> <goals> 
+			<goal>repackage</goal> </goals> </execution> </executions> </plugin> </plugins> -->
+		<finalName>smcenter-agent</finalName>
+	</build>
+
+	<!-- <build> <plugins> <plugin> <groupId>com.taobao.pandora</groupId> <artifactId>pandora-boot-maven-plugin</artifactId> 
+		<version>2.1.7.8</version> <executions> <execution> <phase>package</phase> 
+		<goals> <goal>repackage</goal> </goals> </execution> </executions> </plugin> 
+		<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+		<version>3.1</version> <configuration> <source>${jdk.version}</source> <target>${jdk.version}</target> 
+		<encoding>UTF-8</encoding> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+		<artifactId>maven-resources-plugin</artifactId> <version>2.6</version> <executions> 
+		<execution> <id>copy-resources</id> <phase>validate</phase> <goals> <goal>copy-resources</goal> 
+		</goals> <configuration> <outputDirectory>${project.build.outputDirectory}</outputDirectory> 
+		<resources> <resource> 指定resources插件处理哪个目录下的资源文件 <directory>src/main/resources</directory> 
+		<filtering>true</filtering> </resource> </resources> </configuration> </execution> 
+		</executions> </plugin> </plugins> </build> -->
+
+</project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.irdstudio.ssm.admin.dao.E4ADao">
+
+	<!-- 用户信息映射 -->
+	<resultMap type="com.irdstudio.ssm.admin.dao.domain.SUser" id="sUserList">
+		<result property="actorno" column="usr_cde"/>
+		<result property="enname" column="usr_name"/>
+		<result property="actorname" column="usr_name"/>
+		<result property="nickname" column="nickname"/>
+		<result property="state" column="usr_sts"/>
+		<result property="startdate" column="startdate"/>
+		<result property="passwvalda" column="passwvalda"/>
+		<result property="firedate" column="firedate"/>
+		<result property="birthday" column="birthday"/>
+		<result property="telnum" column="telnum"/>
+		<result property="idcardno" column="idcardno"/>
+		<result property="allowopersys" column="allowopersys"/>
+		<result property="lastlogdat" column="lastlogdat"/>
+		<result property="creater" column="creater"/>
+		<result property="creattime" column="creattime"/>
+		<result property="usermail" column="usermail"/>
+		<result property="wrongpinnum" column="wrongpinnum"/>
+		<result property="isadmin" column="isadmin"/>
+		<result property="memo" column="memo"/>
+		<result property="ipmask" column="ipmask"/>
+		<result property="orderno" column="orderno"/>
+		<result property="question" column="question"/>
+		<result property="answer" column="answer"/>
+		<result property="orgid" column="orgid"/>
+		<result property="depno" column="depno"/>
+		<result property="sessionId" column="session_id"/>
+		<result property="rank" column="rank"/>
+		<result property="parentactorno" column="parentactorno"/>
+		<result property="deviceNo" column="device_no"/>
+		<result property="menuConfig" column="menu_config"/>
+		<result property="isPriorityShow" column="is_priority_show"/>
+		<result property="ifTogetherWf" column="if_together_wf"/>
+		<result property="opModel" column="op_model"/>
+		<result property="mobNum" column="mob_num"/>
+	</resultMap>
+	  
+	<!-- 用户信息 -->
+	<!-- <sql id="User_Column_List">
+  		actorno,enname,actorname,nickname,state,password,startdate,passwvalda,firedate,birthday,telnum,idcardno,allowopersys,lastlogdat,creater,creattime,usermail,wrongpinnum,isadmin,memo,ipmask,orderno,question,answer,orgid,depno,session_id,rank,parentactorno,device_no,menu_config,is_priority_show,if_together_wf,op_model,mob_num
+  	</sql> -->
+  	<sql id="User_Column_List">
+  		usr_cde,usr_name,usr_cde,usr_password,usr_sts
+  	</sql>
+	
+	<!-- 根据用户码和密码查询用户信息 -->
+    <select id="queryByCodeAndPw" resultMap="sUserList" parameterType="com.irdstudio.ssm.admin.dao.domain.SUser">
+    	SELECT
+    		<include refid="User_Column_List"/>
+    	FROM s_usr where usr_cde = #{actorno} AND usr_password = #{password} AND usr_sts = 'A'
+    </select>
+    
+  	<!-- 更新用户密码 -->
+  	<update id="updateUserPassword" parameterType="com.irdstudio.ssm.admin.dao.domain.SUser">
+  		update s_usr set usr_password = #{password} where usr_cde = #{actorno}
+  	</update>
+	
+</mapper>

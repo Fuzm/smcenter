@@ -1,0 +1,87 @@
+package com.easycon.busi.component;
+
+import java.sql.*;
+
+import com.easycon.busi.core.AbstractBusinessBus;
+import com.easycon.busi.element.UniKeyValueObject;
+import com.easycon.db.conn.ConnPool;
+/**
+ * 授权类交易的处理类
+ * @author 李广明
+ * @version 1.0
+ * @date 2008-05-15
+ *
+ */
+public class AccreditBusiBus extends AbstractBusinessBus{
+	
+	private static String selectSql = "SELECT * FROM CRD_CZ_SQ WHERE JYM=? and JJBH=?";
+	private static String updateSql = "UPDATE CRD_CZ_SQ SET ZT='02' WHERE JYM=? and JJBH=?";
+
+	public UniKeyValueObject doExecute(UniKeyValueObject inUvo) throws Exception{
+		
+		UniKeyValueObject outUvo = new UniKeyValueObject();
+
+		//取出交易码及借据编号信息,用于向CRD_CZ_SQ表进行查询
+		String jym = inUvo.getValue("JYM").trim();
+		String jjbh = inUvo.getValue("JJBH").trim();
+		
+		logger.info("JYM:" + jym + " JJBH:" + jjbh);
+		
+		//向授权表(CRD_CZ_SQ)查询数据,并组包进行返回
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection conn = ConnPool.getInstance().getConnection();
+		try {
+			ps = conn.prepareStatement(selectSql);
+			ps.setString(1, jym);
+			ps.setString(2, jjbh);
+			rs = ps.executeQuery();
+			outUvo.addVariable("JYM",jym);
+			if(rs.next()){
+				outUvo.addVariable("YDM","00");
+				outUvo.addVariable("YDXX","成功");
+				outUvo.addVariable("JJBH",jjbh);
+				outUvo.addVariable("KHM",rs.getString("khm"));
+				outUvo.addVariable("KHMC",rs.getString("khmc"));
+				outUvo.addVariable("ZWHTBH",rs.getString("zwhtbh"));
+				for (int i = 1; i <= 25; i++) {
+					String fieldName = "FLDVALUE"
+							+ ("00" + i).substring(("00" + i).length() - 2);
+					String value = rs.getString(fieldName);
+					if(value != null && !"".equals(value.trim())){
+						String[] arr = value.split("@");
+						outUvo.addVariable(arr[1], arr[2].trim());
+					}
+				}
+				rs.close();
+				ps.close();
+				//更新授权表的状态,标记为"已出帐但未核实"
+				ps = conn.prepareStatement(updateSql);
+				ps.setString(1, jym);
+				ps.setString(2, jjbh);
+				ps.executeUpdate();				
+			} else{
+				outUvo.addVariable("YDM", "01");
+				outUvo.addVariable("YDXX", "没有相应的数据记录");
+			}
+		} catch (SQLException e) {
+			outUvo.clear();
+			outUvo.addVariable("JYM", jym);
+			outUvo.addVariable("YDM", "01");
+			outUvo.addVariable("YDXX", "交易失败");
+			logger.debug(e.getMessage());
+			e.printStackTrace();
+		} finally{
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ConnPool.getInstance().close(conn);
+		}
+		
+		return outUvo;
+	}
+
+}
